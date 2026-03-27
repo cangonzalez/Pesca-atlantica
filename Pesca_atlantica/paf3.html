@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios - Pesca Atlántica</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        header {
+            background: #4a90e2;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            background: #333;
+            padding: 15px;
+        }
+
+        nav ul {
+            list-style: none;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        nav ul li a:hover {
+            background: #4a90e2;
+        }
+
+        nav ul li a.active {
+            background: #4a90e2;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            min-height: 400px;
+        }
+
+        h2 {
+            color: #4a90e2;
+            margin-bottom: 20px;
+        }
+
+        .servicios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .servicio {
+            background: #f4f4f4;
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 5px solid #4a90e2;
+        }
+
+        .servicio h3 {
+            color: #4a90e2;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mi Empresa</h1>
+        <p>Soluciones profesionales para tu negocio</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+            <li><a href="servicios.html" class="active">Servicios</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h2>Nuestros Servicios</h2>
+        <p>Ofrecemos una amplia gama de servicios diseñados para satisfacer las necesidades de nuestros clientes.</p>
+
+        <div class="servicios-grid">
+            <div class="servicio">
+                <h3>Consultoría</h3>
+                <p>Asesoramiento profesional para optimizar tus procesos y alcanzar tus objetivos empresariales.</p>
+            </div>
+
+            <div class="servicio">
+                <h3>Desarrollo</h3>
+                <p>Soluciones tecnológicas personalizadas que se adaptan perfectamente a las necesidades de tu negocio.</p>
+            </div>
+
+            <div class="servicio">
+                <h3>Capacitación</h3>
+                <p>Programas de formación diseñados para potenciar las habilidades de tu equipo.</p>
+            </div>
+
+            <div class="servicio">
+                <h3>Soporte Técnico</h3>
+                <p>Asistencia continua para garantizar el funcionamiento óptimo de tus sistemas.</p>
+            </div>
+
+            <div class="servicio">
+                <h3>Mantenimiento</h3>
+                <p>Servicios de mantenimiento preventivo y correctivo para maximizar la disponibilidad.</p>
+            </div>
+
+            <div class="servicio">
+                <h3>Análisis de Datos</h3>
+                <p>Transformamos tus datos en información valiosa para la toma de decisiones estratégicas.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Mi Empresa. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
