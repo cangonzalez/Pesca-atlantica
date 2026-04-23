@@ -3,125 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio - Pesca Atlántica</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-        }
+    <title>Pesca Atlántica</title>
 
-        header {
-            background: #4a90e2;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
+    <!-- Tipografía -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
-        nav {
-            background: #333;
-            padding: 15px;
-        }
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
 
-        nav ul {
-            list-style: none;
-            text-align: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+<body>
 
-        nav ul li {
-            display: inline;
-            margin: 0 15px;
-        }
+    <!-- HEADER -->
+    <header class="header">
+        <h1>Pesca Atlántica</h1>
+        <p>Del mar directo a tu mesa</p>
+    </header>
 
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
-
-        nav ul li a:hover {
-            background: #4a90e2;
-        }
-
-        nav ul li a.active {
-            background: #4a90e2;
-        }
-
-        main {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 20px;
-            min-height: 400px;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 50px 20px;
-            background: #f4f4f4;
-            border-radius: 10px;
-            margin-bottom: 30px;
-        }
-
-        .hero h2 {
-            color: #4a90e2;
-            font-size: 2.5em;
-            margin-bottom: 20px;
-        }
-
-        footer {
-            background: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-        }
-    </style>
-<!-- DESPUÉS: -->
-<header>
-    <h1>Pesca Atlántica</h1>
-    <p>Expertos en productos del mar</p>  <!-- O el eslogan que prefieras -->
-</header>
-
-    <nav>
+    <!-- NAV -->
+    <nav class="nav">
         <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="pagina2.html">Sobre Nosotros</a></li>
-            <li><a href="pagina3.html">Servicios</a></li>
+            <li><a href="index.html" class="active">Inicio</a></li>
+            <li><a href="pagina2.html">Nosotros</a></li>
+            <li><a href="pagina3.html">Productos</a></li>
             <li><a href="pagina4.html">Contacto</a></li>
         </ul>
     </nav>
 
+    <!-- MAIN -->
     <main>
-            <!-- DESPUÉS: -->
-            <div class="hero">
-                <h2>Bienvenido a Pesca Atlántica</h2>
-                <p>Los mejores productos del mar, frescos y de calidad</p>
-            </div>
 
-        <section>
-            <h2>¿Por qué elegirnos?</h2>
-            <p>Somos una empresa comprometida con la excelencia y la satisfacción de nuestros clientes.</p>
-            <ul>
-                <li>Más de 10 años de experiencia</li>
-                <li>Equipo profesional altamente capacitado</li>
-                <li>Soluciones personalizadas</li>
-                <li>Soporte 24/7</li>
-            </ul>
+        <!-- HERO -->
+        <section class="hero">
+            <h2>Frescura garantizada desde el origen</h2>
+            <p>
+                En Pesca Atlántica controlamos toda la cadena productiva: 
+                desde la captura en nuestros barcos pesqueros hasta el procesamiento 
+                en planta y la entrega final. Esto nos permite ofrecer productos 
+                frescos, trazables y de máxima calidad.
+            </p>
+            <a href="#productos" class="btn">Ver productos</a>
         </section>
+
+        <!-- DIFERENCIAL -->
+        <section class="diferencial">
+            <h2>Nuestra diferencia</h2>
+
+            <div class="grid">
+                <article class="card">
+                    <h3>Pesca propia</h3>
+                    <p>Operamos con flota propia en el Atlántico Sur, asegurando materia prima de primera calidad.</p>
+                </article>
+
+                <article class="card">
+                    <h3>Procesamiento inmediato</h3>
+                    <p>El pescado es fileteado en planta pocas horas después de su captura.</p>
+                </article>
+
+                <article class="card">
+                    <h3>Cadena de frío</h3>
+                    <p>Mantenemos la temperatura controlada en todo el proceso logístico.</p>
+                </article>
+
+                <article class="card">
+                    <h3>Entrega directa</h3>
+                    <p>Sin intermediarios: del productor directamente al consumidor.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- PRODUCTOS -->
+        <section id="productos" class="productos">
+            <h2>Nuestros productos</h2>
+
+            <div class="grid">
+                <article class="producto">
+                    <h3>Pescados frescos</h3>
+                    <p>Merluza, corvina y otras especies seleccionadas diariamente.</p>
+                </article>
+
+                <article class="producto">
+                    <h3>Mariscos</h3>
+                    <p>Camarones, langostinos y productos premium del mar.</p>
+                </article>
+
+                <article class="producto">
+                    <h3>Congelados</h3>
+                    <p>Opciones prácticas que mantienen la calidad y frescura.</p>
+                </article>
+            </div>
+        </section>
+
     </main>
 
-    <footer>
+    <!-- FOOTER -->
+    <footer class="footer">
         <p>&copy; 2026 Pesca Atlántica. Todos los derechos reservados.</p>
     </footer>
+
 </body>
 </html>
