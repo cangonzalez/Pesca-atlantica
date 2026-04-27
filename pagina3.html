@@ -3,154 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Servicios - Pesca Atlántica</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <title>Productos - Pesca Atlántica</title>
 
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-        }
-
-        header {
-            background: #4a90e2;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        nav {
-            background: #333;
-            padding: 15px;
-        }
-
-        nav ul {
-            list-style: none;
-            text-align: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        nav ul li {
-            display: inline;
-            margin: 0 15px;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
-
-        nav ul li a:hover {
-            background: #4a90e2;
-        }
-
-        nav ul li a.active {
-            background: #4a90e2;
-        }
-
-        main {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 20px;
-            min-height: 400px;
-        }
-
-        h2 {
-            color: #4a90e2;
-            margin-bottom: 20px;
-        }
-
-        .servicios-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .servicio {
-            background: #f4f4f4;
-            padding: 30px;
-            border-radius: 10px;
-            border-left: 5px solid #4a90e2;
-        }
-
-        .servicio h3 {
-            color: #4a90e2;
-            margin-bottom: 15px;
-        }
-
-        footer {
-            background: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-    <header>
-        <h1>Mi Empresa</h1>
-        <p>Soluciones profesionales para tu negocio</p>
-    </header>
 
-    <nav>
-        <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="pagina2.html">Sobre Nosotros</a></li>
-            <li><a href="pagina3.html">Servicios</a></li>
-            <li><a href="pagina4.html">Contacto</a></li>
-        </ul>
-    </nav>
+<header class="header">
+    <h1>Pesca Atlántica</h1>
+    <p>Del mar directo a tu mesa</p>
+</header>
 
-    <main>
-        <h2>Nuestros Servicios</h2>
-        <p>Ofrecemos una amplia gama de servicios diseñados para satisfacer las necesidades de nuestros clientes.</p>
+<nav class="nav">
+    <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="pagina2.html">Nosotros</a></li>
+        <li><a href="pagina3.html" class="active">Productos</a></li>
+        <li><a href="pagina4.html">Contacto</a></li>
+    </ul>
+</nav>
 
-        <div class="servicios-grid">
-            <div class="servicio">
-                <h3>Consultoría</h3>
-                <p>Asesoramiento profesional para optimizar tus procesos y alcanzar tus objetivos empresariales.</p>
-            </div>
+<main>
 
-            <div class="servicio">
-                <h3>Desarrollo</h3>
-                <p>Soluciones tecnológicas personalizadas que se adaptan perfectamente a las necesidades de tu negocio.</p>
-            </div>
+<section>
+    <h2>Nuestros productos</h2>
+    <p>Seleccionamos cuidadosamente cada producto para garantizar frescura y calidad.</p>
+</section>
 
-            <div class="servicio">
-                <h3>Capacitación</h3>
-                <p>Programas de formación diseñados para potenciar las habilidades de tu equipo.</p>
-            </div>
+<section class="grid">
 
-            <div class="servicio">
-                <h3>Soporte Técnico</h3>
-                <p>Asistencia continua para garantizar el funcionamiento óptimo de tus sistemas.</p>
-            </div>
+    <div class="producto">
+        <h3>Merluza fresca</h3>
+        <p>Filetes seleccionados, ideales para consumo diario.</p>
+    </div>
 
-            <div class="servicio">
-                <h3>Mantenimiento</h3>
-                <p>Servicios de mantenimiento preventivo y correctivo para maximizar la disponibilidad.</p>
-            </div>
+    <div class="producto">
+        <h3>Langostinos</h3>
+        <p>Producto premium, listo para cocinar.</p>
+    </div>
 
-            <div class="servicio">
-                <h3>Análisis de Datos</h3>
-                <p>Transformamos tus datos en información valiosa para la toma de decisiones estratégicas.</p>
-            </div>
-        </div>
-    </main>
+    <div class="producto">
+        <h3>Corvina</h3>
+        <p>Perfecta para horno o parrilla.</p>
+    </div>
 
-    <footer>
-        <p>&copy; 2026 Mi Empresa. Todos los derechos reservados.</p>
-    </footer>
+    <div class="producto">
+        <h3>Calamar</h3>
+        <p>Fresco o congelado, ideal para múltiples recetas.</p>
+    </div>
+
+</section>
+
+</main>
+
+<footer class="footer">
+    <p>&copy; 2026 Pesca Atlántica</p>
+</footer>
+
 </body>
 </html>

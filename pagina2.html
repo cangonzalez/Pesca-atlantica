@@ -3,133 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sobre Nosotros - Pesca Atlántica</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <title>Nosotros - Pesca Atlántica</title>
 
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-        }
-
-        header {
-            background: #4a90e2;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        nav {
-            background: #333;
-            padding: 15px;
-        }
-
-        nav ul {
-            list-style: none;
-            text-align: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        nav ul li {
-            display: inline;
-            margin: 0 15px;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
-
-        nav ul li a:hover {
-            background: #4a90e2;
-        }
-
-        nav ul li a.active {
-            background: #4a90e2;
-        }
-
-        main {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 20px;
-            min-height: 400px;
-        }
-
-        h2 {
-            color: #4a90e2;
-            margin-bottom: 20px;
-        }
-
-        .mision-vision {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .card {
-            background: #f4f4f4;
-            padding: 25px;
-            border-radius: 10px;
-        }
-
-        footer {
-            background: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-    <header>
-            <h1>Pesca Atlántica</h1>
-            <p>Expertos en productos del mar</p>
-        </header>
-    </header>
 
-    <nav>
-        <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="pagina2.html">Sobre Nosotros</a></li>
-            <li><a href="pagina3.html">Servicios</a></li>
-            <li><a href="pagina4.html">Contacto</a></li>
-        </ul>
-    </nav>
+<header class="header">
+    <h1>Pesca Atlántica</h1>
+    <p>Del mar directo a tu mesa</p>
+</header>
 
-    <main>
-        <h2>Sobre Nosotros</h2>
-        <p>Somos una empresa dedicada a proporcionar soluciones innovadoras y de alta calidad. Nuestro equipo está formado por profesionales apasionados comprometidos con la excelencia.</p>
-        
-        <div class="mision-vision">
-            <div class="card">
-                <h3>Nuestra Misión</h3>
-                <p>Proporcionar soluciones de alta calidad que superen las expectativas de nuestros clientes, innovando constantemente y manteniendo los más altos estándares de servicio.</p>
-            </div>
-            <div class="card">
-                <h3>Nuestra Visión</h3>
-                <p>Ser líderes reconocidos en nuestro sector, destacando por nuestra innovación, calidad de servicio y compromiso con la satisfacción del cliente.</p>
-            </div>
-        </div>
+<nav class="nav">
+    <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="pagina2.html" class="active">Nosotros</a></li>
+        <li><a href="pagina3.html">Productos</a></li>
+        <li><a href="pagina4.html">Contacto</a></li>
+    </ul>
+</nav>
 
-        <section style="margin-top: 40px;">
-            <h3>Nuestro Equipo</h3>
-            <p>Contamos con un equipo de profesionales altamente capacitados con años de experiencia en el sector, dedicados a ofrecer el mejor servicio posible.</p>
-        </section>
-    </main>
+<main>
 
-    <footer>
-        <p>&copy;  2026 Pesca Atlántica. Todos los derechos reservados.</p>
-    </footer>
+<section>
+    <h2>Quiénes somos</h2>
+    <p>
+        Somos una empresa pesquera integrada verticalmente, lo que significa que controlamos 
+        todo el proceso productivo: desde la captura en el mar hasta la entrega final.
+    </p>
+</section>
+
+<section class="grid">
+    <div class="card">
+        <h3>Nuestra misión</h3>
+        <p>Brindar productos frescos y de alta calidad, garantizando trazabilidad y confianza en cada compra.</p>
+    </div>
+
+    <div class="card">
+        <h3>Nuestra visión</h3>
+        <p>Ser referentes en el mercado pesquero argentino, destacándonos por calidad e innovación.</p>
+    </div>
+</section>
+
+<section>
+    <h2>Cómo trabajamos</h2>
+    <p>
+        Nuestra flota pesquera opera en el Atlántico Sur. El pescado es transportado a nuestra planta 
+        filetera donde se procesa en pocas horas, manteniendo intacta su frescura. Luego, distribuimos 
+        directamente al consumidor final.
+    </p>
+</section>
+
+</main>
+
+<footer class="footer">
+    <p>&copy; 2026 Pesca Atlántica</p>
+</footer>
+
 </body>
 </html>

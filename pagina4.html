@@ -4,227 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacto - Pesca Atlántica</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-        }
-
-        header {
-            background: #4a90e2;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        nav {
-            background: #333;
-            padding: 15px;
-        }
-
-        nav ul {
-            list-style: none;
-            text-align: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        nav ul li {
-            display: inline;
-            margin: 0 15px;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
-
-        nav ul li a:hover {
-            background: #4a90e2;
-        }
-
-        nav ul li a.active {
-            background: #4a90e2;
-        }
-
-        main {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 20px;
-            min-height: 400px;
-        }
-
-        h2 {
-            color: #4a90e2;
-            margin-bottom: 20px;
-        }
-
-        .contacto-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-top: 30px;
-        }
-
-        .info-contacto {
-            background: #f4f4f4;
-            padding: 30px;
-            border-radius: 10px;
-        }
-
-        .info-contacto h3 {
-            color: #4a90e2;
-            margin-bottom: 20px;
-        }
-
-        .info-item {
-            margin-bottom: 15px;
-        }
-
-        .info-item strong {
-            color: #4a90e2;
-        }
-
-        .formulario {
-            background: #f4f4f4;
-            padding: 30px;
-            border-radius: 10px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-family: Arial, sans-serif;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .boton-enviar {
-            background: #4a90e2;
-            color: white;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .boton-enviar:hover {
-            background: #357ab8;
-        }
-
-        footer {
-            background: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-    <header>
-        <h1>Mi Empresa</h1>
-        <p>Soluciones profesionales para tu negocio</p>
-    </header>
 
-    <nav>
-        <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="pagina2.html">Sobre Nosotros</a></li>
-            <li><a href="pagina3.html">Servicios</a></li>
-            <li><a href="pagina4.html">Contacto</a></li>
-        </ul>
-    </nav>
+<header class="header">
+    <h1>Pesca Atlántica</h1>
+    <p>Del mar directo a tu mesa</p>
+</header>
 
-    <main>
-        <h2>Contacto</h2>
-        <p>¿Tienes alguna pregunta? Estamos aquí para ayudarte. Contáctanos y te responderemos lo antes posible.</p>
+<nav class="nav">
+    <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="pagina2.html">Nosotros</a></li>
+        <li><a href="pagina3.html">Productos</a></li>
+        <li><a href="pagina4.html" class="active">Contacto</a></li>
+    </ul>
+</nav>
 
-        <div class="contacto-container">
-            <div class="info-contacto">
-                <h3>Información de Contacto</h3>
-                
-                <div class="info-item">
-                    <strong>Dirección:</strong><br>
-                    Calle Principal 123<br>
-                    Ciudad, País 12345
-                </div>
+<main>
 
-                <div class="info-item">
-                    <strong>Teléfono:</strong><br>
-                    +34 123 456 789
-                </div>
+<section>
+    <h2>Contacto</h2>
+    <p>Estamos disponibles para consultas y pedidos.</p>
+</section>
 
-                <div class="info-item">
-                    <strong>Email:</strong><br>
-                    info@miempresa.com
-                </div>
+<section class="grid">
 
-                <div class="info-item">
-                    <strong>Horario:</strong><br>
-                    Lunes a Viernes: 9:00 - 18:00<br>
-                    Sábados: 9:00 - 14:00
-                </div>
-            </div>
+    <div class="card">
+        <h3>Información</h3>
+        <p>📍 Caleta, Argentina</p>
+        <p>📞 +54 11 1111 1111</p>
+        <p>✉️ contacto@pescaatlantica.com</p>
+    </div>
 
-            <div class="formulario">
-                <h3>Envíanos un Mensaje</h3>
-                <form action="#" method="post">
-                    <div class="form-group">
-                        <label for="nombre">Nombre:</label>
-                        <input type="text" id="nombre" name="nombre" required>
-                    </div>
+    <div class="card">
+        <h3>Formulario</h3>
 
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
+        <form>
+            <input type="text" placeholder="Nombre" required><br><br>
+            <input type="email" placeholder="Email" required><br><br>
+            <textarea placeholder="Mensaje"></textarea><br><br>
+            <button class="btn">Enviar</button>
+        </form>
 
-                    <div class="form-group">
-                        <label for="asunto">Asunto:</label>
-                        <input type="text" id="asunto" name="asunto" required>
-                    </div>
+    </div>
 
-                    <div class="form-group">
-                        <label for="mensaje">Mensaje:</label>
-                        <textarea id="mensaje" name="mensaje" required></textarea>
-                    </div>
+</section>
 
-                    <button type="submit" class="boton-enviar">Enviar Mensaje</button>
-                </form>
-            </div>
-        </div>
-    </main>
+</main>
 
-    <footer>
-        <p>&copy; 2026 Mi Empresa. Todos los derechos reservados.</p>
-    </footer>
+<footer class="footer">
+    <p>&copy; 2026 Pesca Atlántica</p>
+</footer>
+
 </body>
+</html>
 </html>
