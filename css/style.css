@@ -59,6 +59,7 @@
 
 html {
     scroll-behavior: smooth;
+    min-height: 100vh;
 }
 
 body {
@@ -68,6 +69,8 @@ body {
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 img {
@@ -84,10 +87,11 @@ img {
     background-color: var(--negro);
     padding: var(--espacio-md) 0;
     border-bottom: 1px solid var(--gris-oscuro);
+    position: -webkit-sticky; /* Safari */
     position: sticky;
     top: 0;
     z-index: 1000;
-    backdrop-filter: blur(10px);
+    width: 100%;
 }
 
 .logo {
@@ -95,7 +99,6 @@ img {
     height: auto;
     margin: 0 auto;
     display: block;
-    filter: brightness(0) invert(1); /* Logo en blanco */
     transition: var(--transicion-normal);
 }
 
@@ -112,6 +115,11 @@ img {
     background-color: var(--negro-suave);
     padding: 0;
     border-bottom: 1px solid var(--gris-oscuro);
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0; /* Se pega al tope cuando el header sube */
+    z-index: 999;
+    width: 100%;
 }
 
 .nav ul {
@@ -573,6 +581,10 @@ section {
     
     .logo {
         width: 150px;
+    }
+    
+    .nav {
+        top: 0; /* En mobile también se pega al tope */
     }
     
     .nav ul {
