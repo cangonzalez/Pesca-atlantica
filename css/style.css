@@ -31,3 +31,32 @@
     display: block;
     border-radius: 12px;
 }
+
+/* FORMULARIO CONTACTO */
+
+.form-contacto {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-contacto input,
+.form-contacto textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+}
+
+.form-contacto textarea {
+    min-height: 180px;
+    resize: vertical;
+}
+
+.form-contacto input:focus,
+.form-contacto textarea:focus {
+    outline: none;
+    border: 1px solid black;
+}
