@@ -1,23 +1,129 @@
+/* RESET GENERAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* BODY */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f8f8;
+    color: #111;
+    line-height: 1.6;
+}
+
+/* HEADER */
+.header {
+    background-color: black;
+    text-align: center;
+    padding: 20px;
+}
+
 .logo {
     width: 220px;
+    max-width: 100%;
 }
 
+/* NAVBAR */
+.nav {
+    background-color: #1a1a1a;
+    padding: 15px;
+}
+
+.nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.nav ul li a:hover {
+    color: #cfcfcf;
+}
+
+.nav .active {
+    border-bottom: 2px solid white;
+}
+
+/* MAIN */
+main {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 50px 0;
+}
+
+/* HERO */
+.hero {
+    background-image:
+        linear-gradient(
+            rgba(0,0,0,0.4),
+            rgba(0,0,0,0.4)
+        ),
+        url("../imagenes/barco_frente.png");
+
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 140px 20px;
+    border-radius: 12px;
+    margin-bottom: 60px;
+}
+
+.hero h2 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+/* BOTONES */
+.btn {
+    display: inline-block;
+    background-color: black;
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-top: 20px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background-color: #333;
+}
+
+/* GRID GENERAL */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    margin: 50px 0;
+}
+
+/* CARDS */
+.card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+}
+
+/* IMÁGENES */
 .imagen-seccion img {
     width: 100%;
+    height: 400px;
+    object-fit: cover;
     border-radius: 12px;
-}
-
-.texto-seccion {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.flota,
-.captura,
-.distribucion,
-.producto-final {
-    margin-bottom: 80px;
 }
 
 .producto-final {
@@ -26,14 +132,28 @@
 
 .producto-final img {
     width: 100%;
-    max-width: 700px;
-    margin: 20px auto;
-    display: block;
+    max-width: 600px;
+    height: 400px;
+    object-fit: cover;
     border-radius: 12px;
+    margin: 20px auto;
 }
 
-/* FORMULARIO CONTACTO */
+/* PRODUCTOS */
+#contenedor-productos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
 
+#contenedor-productos img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* FORMULARIO */
 .form-contacto {
     display: flex;
     flex-direction: column;
@@ -44,19 +164,42 @@
 .form-contacto textarea {
     width: 100%;
     padding: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     border-radius: 8px;
     font-family: 'Poppins', sans-serif;
-    font-size: 1rem;
 }
 
 .form-contacto textarea {
     min-height: 180px;
-    resize: vertical;
+    resize: none;
 }
 
-.form-contacto input:focus,
-.form-contacto textarea:focus {
-    outline: none;
-    border: 1px solid black;
+/* FOOTER */
+.footer {
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 25px;
+    margin-top: 50px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    #contenedor-productos {
+        grid-template-columns: 1fr;
+    }
+
+    .nav ul {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .hero h2 {
+        font-size: 2rem;
+    }
 }
