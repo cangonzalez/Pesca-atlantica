@@ -1,272 +1,33 @@
-/* =========================
-   RESET GENERAL
-========================= */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.logo {
+    width: 220px;
 }
 
-/* =========================
-   PALETA NUEVA
-========================= */
-:root {
-    --negro: #111111;
-    --gris-oscuro: #2c2c2c;
-    --gris-medio: #7a7a7a;
-    --gris-claro: #f5f5f5;
-    --blanco: #ffffff;
-}
-
-/* =========================
-   BODY
-========================= */
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: var(--blanco);
-    color: var(--negro);
-    line-height: 1.6;
-}
-
-/* =========================
-   HEADER
-========================= */
-.header {
-    background-color: var(--negro);
-    color: var(--blanco);
-    text-align: center;
-    padding: 30px 20px;
-}
-
-.header h1 {
-    font-size: 2rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
-.header p {
-    color: #d1d1d1;
-    margin-top: 10px;
-}
-
-/* =========================
-   NAVBAR
-========================= */
-.nav {
-    background-color: var(--gris-oscuro);
-    padding: 18px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.nav ul {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    gap: 30px;
-    flex-wrap: wrap;
-}
-
-.nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-    transition: 0.3s;
-}
-
-.nav a:hover {
-    color: #d9d9d9;
-}
-
-.nav .active {
-    border-bottom: 2px solid white;
-    padding-bottom: 5px;
-}
-
-/* =========================
-   MAIN
-========================= */
-main {
-    max-width: 1200px;
-    margin: auto;
-    padding: 40px 20px;
-}
-
-/* =========================
-   HERO SECTION
-========================= */
-.hero {
-    background-image: linear-gradient(
-        rgba(0,0,0,0.55),
-        rgba(0,0,0,0.55)
-    ),
-    url("../img/barco.jpg");
-    
-    background-size: cover;
-    background-position: center;
-    color: white;
-    text-align: center;
-    padding: 120px 20px;
+.imagen-seccion img {
+    width: 100%;
     border-radius: 12px;
-    margin-bottom: 70px;
 }
 
-.hero h2 {
-    font-size: 3rem;
-    margin-bottom: 20px;
+.texto-seccion {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.hero p {
-    max-width: 700px;
-    margin: auto;
-    margin-bottom: 25px;
-}
-
-/* =========================
-   BOTONES
-========================= */
-.btn {
-    display: inline-block;
-    background-color: white;
-    color: black;
-    padding: 12px 30px;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.btn:hover {
-    background-color: #d9d9d9;
-    transform: translateY(-3px);
-}
-
-/* =========================
-   SECTIONS
-========================= */
-section {
+.flota,
+.captura,
+.distribucion,
+.producto-final {
     margin-bottom: 80px;
 }
 
-section h2 {
+.producto-final {
     text-align: center;
-    margin-bottom: 30px;
-    font-size: 2rem;
 }
 
-/* =========================
-   GRID
-========================= */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
-}
-
-/* =========================
-   CARDS GENERALES
-========================= */
-.card {
-    background-color: var(--gris-claro);
-    padding: 30px;
+.producto-final img {
+    width: 100%;
+    max-width: 700px;
+    margin: 20px auto;
+    display: block;
     border-radius: 12px;
-    transition: 0.3s;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-
-/* =========================
-   PRODUCTOS
-========================= */
-.producto {
-    background-color: white;
-    border: 1px solid #ddd;
-    padding: 25px;
-    border-radius: 12px;
-    transition: 0.3s;
-    text-align: center;
-}
-
-.producto:hover {
-    transform: translateY(-6px);
-    box-shadow: 0px 5px 20px rgba(0,0,0,0.12);
-}
-
-.producto h3 {
-    margin-bottom: 10px;
-}
-
-.producto p {
-    color: var(--gris-medio);
-}
-
-/* =========================
-   TIMELINE PROCESO
-========================= */
-.proceso {
-    background-color: var(--gris-claro);
-    padding: 60px 20px;
-    border-radius: 12px;
-}
-
-.paso {
-    text-align: center;
-}
-
-.paso h3 {
-    margin-top: 15px;
-}
-
-/* =========================
-   FOOTER
-========================= */
-.footer {
-    background-color: var(--negro);
-    color: white;
-    text-align: center;
-    padding: 25px;
-    margin-top: 50px;
-}
-
-/* =========================
-   ANIMACIONES
-========================= */
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.hero h2,
-.hero p,
-.hero .btn {
-    animation: fadeUp 1s ease;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-@media (max-width: 768px) {
-
-    .hero h2 {
-        font-size: 2rem;
-    }
-
-    .nav ul {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .header h1 {
-        font-size: 1.5rem;
-    }
 }

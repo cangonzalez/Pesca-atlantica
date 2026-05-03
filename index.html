@@ -1,73 +1,135 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pescatlantica</title>
+
     <link rel="stylesheet" href="css/style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<header class="header">
-    <img src="imagenes/logo.png" alt="Logo Pescatlantica" class="logo">
-</header>
+    <!-- HEADER -->
+    <header class="header">
+        <img src="imagenes/logo.jpeg" alt="Logo Pescatlantica" class="logo">
+    </header>
 
-<nav class="nav">
-    <ul>
-        <li><a href="index.html" class="active">Inicio</a></li>
-        <li><a href="pagina2.html">Nosotros</a></li>
-        <li><a href="pagina3.html">Productos</a></li>
-        <li><a href="pagina4.html">Contacto</a></li>
-    </ul>
-</nav>
+    <!-- NAV -->
+    <nav class="nav">
+        <ul>
+            <li><a href="index.html" class="active">Inicio</a></li>
+            <li><a href="pagina2.html">Nosotros</a></li>
+            <li><a href="pagina3.html">Productos</a></li>
+            <li><a href="pagina4.html">Contacto</a></li>
+        </ul>
+    </nav>
 
-<main>
+    <main>
 
-<section class="hero">
-    <h2>Del Atlántico Sur a tu mesa</h2>
-    
-    <p>
-        En Pescatlantica capturamos, procesamos y distribuimos productos del mar
-        manteniendo trazabilidad completa y calidad premium.
-    </p>
+        <!-- HERO PRINCIPAL -->
+        <section class="hero">
+            <h2>Del Atlántico Sur al consumidor final</h2>
 
-    <a href="pagina3.html" class="btn">Comprar productos</a>
-</section>
+            <p>
+                En Pescatlantica controlamos toda la cadena:
+                captura, procesamiento, distribución y venta.
+            </p>
 
-<section class="proceso">
-    <h2>Nuestro proceso</h2>
+            <a href="pagina3.html" class="btn">Comprar productos</a>
+        </section>
 
-    <div class="grid">
+        <!-- FLOTA -->
+        <section class="flota">
 
-        <div class="card">
-            <h3>⚓ Captura</h3>
-            <p>Pesca en el Atlántico Sur.</p>
-        </div>
+            <div class="grid">
 
-        <div class="card">
-            <h3>🏭 Procesamiento</h3>
-            <p>Fileteado inmediato en planta.</p>
-        </div>
+                <div class="imagen-seccion">
+                    <img src="imagenes/barco_costado.png" alt="Flota pesquera">
+                </div>
 
-        <div class="card">
-            <h3>🚛 Distribución</h3>
-            <p>Cadena de frío garantizada.</p>
-        </div>
+                <div class="texto-seccion">
+                    <h2>Nuestra flota</h2>
 
-        <div class="card">
-            <h3>🍽️ Consumidor</h3>
-            <p>Entrega directa al cliente.</p>
-        </div>
+                    <p>
+                        Contamos con embarcaciones propias que operan
+                        diariamente en el Atlántico Sur garantizando
+                        trazabilidad desde el origen.
+                    </p>
+                </div>
 
-    </div>
-</section>
+            </div>
 
-</main>
+        </section>
 
-<footer class="footer">
-    <p>© 2026 Pescatlantica</p>
-</footer>
+        <!-- CAPTURA -->
+        <section class="captura">
+
+            <div class="grid">
+
+                <div class="texto-seccion">
+                    <h2>Captura diaria</h2>
+
+                    <p>
+                        Nuestro equipo realiza capturas diarias asegurando
+                        productos frescos y abastecimiento constante.
+                    </p>
+                </div>
+
+                <div class="imagen-seccion">
+                    <img src="imagenes/pescado_barco.jpeg" alt="Equipo pescando">
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- DISTRIBUCION -->
+        <section class="distribucion">
+
+            <div class="grid">
+
+                <div class="imagen-seccion">
+                    <img src="imagenes/camion.jpeg" alt="Distribución refrigerada">
+                </div>
+
+                <div class="texto-seccion">
+                    <h2>Procesamiento y distribución</h2>
+
+                    <p>
+                        Procesamos rápidamente cada producto y mantenemos
+                        cadena de frío durante toda la logística.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- PRODUCTO FINAL -->
+        <section class="producto-final">
+
+            <h2>Calidad premium</h2>
+
+            <img src="imagenes/merluza.jpg" alt="Merluza premium">
+
+            <p>
+                Productos frescos y congelados listos para restaurantes,
+                supermercados y consumidores finales.
+            </p>
+
+            <a href="pagina3.html" class="btn">Ver catálogo</a>
+
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 Pescatlantica</p>
+    </footer>
 
 </body>
 </html>
