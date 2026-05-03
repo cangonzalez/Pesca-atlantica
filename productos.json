@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "nombre": "Merluza",
+        "precio": 12000,
+        "categoria": "Pescado",
+        "imagen": "imagenes/merluza.jpg"
+    },
+    {
+        "id": 2,
+        "nombre": "Langostinos",
+        "precio": 18000,
+        "categoria": "Mariscos",
+        "imagen": "imagenes/langostinos.jpg"
+    },
+    {
+        "id": 3,
+        "nombre": "Calamar",
+        "precio": 14000,
+        "categoria": "Mariscos",
+        "imagen": "imagenes/calamar.jpg"
+    },
+    {
+        "id": 4,
+        "nombre": "Corvina",
+        "precio": 15000,
+        "categoria": "Pescado",
+        "imagen": "imagenes/corvina.jpg"
+    },
+    {
+        "id": 5,
+        "nombre": "Salmón",
+        "precio": 22000,
+        "categoria": "Premium",
+        "imagen": "imagenes/salmon.jpg"
+    }
+]
