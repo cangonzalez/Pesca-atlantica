@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Contacto | Pescatlantica</title>
@@ -8,98 +9,79 @@
 
 <body>
 
-<header class="header">
-    <img src="imagenes/logo.png" alt="Logo Pescatlantica">
-</header>
+    <!-- HEADER -->
+    <header class="header">
+        <img src="imagenes/logo.jpeg" alt="Logo Pescatlantica" class="logo">
+    </header>
 
-<nav class="nav">
-    <ul>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="pagina2.html">Nosotros</a></li>
-        <li><a href="pagina3.html">Productos</a></li>
-        <li><a href="pagina4.html" class="active">Contacto</a></li>
-    </ul>
-</nav>
+    <!-- NAV -->
+    <nav class="nav">
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="pagina2.html">Nosotros</a></li>
+            <li><a href="pagina3.html">Productos</a></li>
+            <li><a href="pagina4.html" class="active">Contacto</a></li>
+        </ul>
+    </nav>
 
-<main>
+    <main>
 
-<section>
-    <h2>Contacto</h2>
-    <p>Consultanos por compras mayoristas o minoristas.</p>
-</section>
+        <section class="contacto-intro">
+            <h2>Contacto</h2>
+            <p>
+                Consultanos por compras mayoristas, pedidos especiales
+                o información sobre exportaciones.
+            </p>
+        </section>
 
-<section class="grid">
+        <section class="grid">
 
-    <div class="card">
-        <h3>Información</h3>
-        <p>📍 Mar del Plata, Argentina</p>
-        <p>📞 +54 11 1111-1111</p>
-        <p>✉ contacto@pescatlantica.com</p>
-    </div>
+            <!-- INFO -->
+            <div class="card">
+                <h3>Información</h3>
 
-    <div class="card">
-        <h3>Formulario</h3>
+                <p>📍 Mar del Plata, Argentina</p>
+                <p>📞 +54 11 1111-1111</p>
+                <p>✉ contacto@pescatlantica.com</p>
+            </div>
 
-        <form>
+            <!-- FORM -->
+            <div class="card">
+                <h3>Formulario</h3>
 
-            <input type="text" placeholder="Nombre" required>
+                <form class="form-contacto">
 
-            <input type="email" placeholder="Email" required>
+                    <input 
+                        type="text" 
+                        placeholder="Nombre completo"
+                        required
+                    >
 
-            <textarea placeholder="Mensaje"></textarea>
+                    <input 
+                        type="email" 
+                        placeholder="Correo electrónico"
+                        required
+                    >
 
-            <button class="btn">Enviar</button>
+                    <textarea 
+                        placeholder="Escribí tu mensaje..."
+                        required
+                    ></textarea>
 
-        </form>
-    </div>
+                    <button class="btn" type="submit">
+                        Enviar consulta
+                    </button>
 
-</section>
+                </form>
+            </div>
 
-</main>
+        </section>
 
-<footer class="footer">
-    <p>© 2026 Pescatlantica</p>
-</footer>
+    </main>
 
-</body>
-</html>
-
-<main>
-
-<section>
-    <h2>Contacto</h2>
-    <p>Estamos disponibles para consultas y pedidos.</p>
-</section>
-
-<section class="grid">
-
-    <div class="card">
-        <h3>Información</h3>
-        <p>📍 Caleta, Argentina</p>
-        <p>📞 +54 11 1111 1111</p>
-        <p>✉️ contacto@pescaatlantica.com</p>
-    </div>
-
-    <div class="card">
-        <h3>Formulario</h3>
-
-        <form>
-            <input type="text" placeholder="Nombre" required><br><br>
-            <input type="email" placeholder="Email" required><br><br>
-            <textarea placeholder="Mensaje"></textarea><br><br>
-            <button class="btn">Enviar</button>
-        </form>
-
-    </div>
-
-</section>
-
-</main>
-
-<footer class="footer">
-    <p>&copy; 2026 Pesca Atlántica</p>
-</footer>
+    <footer class="footer">
+        <p>© 2026 Pescatlantica</p>
+    </footer>
 
 </body>
-</html>
 </html>
