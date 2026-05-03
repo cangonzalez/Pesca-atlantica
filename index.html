@@ -3,103 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Pesca Atlántica</title>
 
-    <!-- Tipografía -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
-    <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
     <!-- HEADER -->
     <header class="header">
-        <h1>Pesca Atlántica</h1>
-        <p>Del mar directo a tu mesa</p>
+
+        <div class="logo-container">
+            <img src="img/logo.png" alt="Logo Pesca Atlántica" class="logo">
+        </div>
+
+        <nav class="nav">
+            <ul>
+                <li><a href="index.html" class="active">Inicio</a></li>
+                <li><a href="pagina2.html">Nosotros</a></li>
+                <li><a href="pagina3.html">Productos</a></li>
+                <li><a href="pagina4.html">Contacto</a></li>
+                <li><a href="#">Carrito 🛒</a></li>
+            </ul>
+        </nav>
+
     </header>
 
-    <!-- NAV -->
-    <nav class="nav">
-        <ul>
-            <li><a href="index.html" class="active">Inicio</a></li>
-            <li><a href="pagina2.html">Nosotros</a></li>
-            <li><a href="pagina3.html">Productos</a></li>
-            <li><a href="pagina4.html">Contacto</a></li>
-        </ul>
-    </nav>
-
-    <!-- MAIN -->
     <main>
 
         <!-- HERO -->
         <section class="hero">
-            <h2>Frescura garantizada desde el origen</h2>
+            <h2>Del Atlántico Sur al consumidor final</h2>
+
             <p>
-                En Pesca Atlántica controlamos toda la cadena productiva: 
-                desde la captura en nuestros barcos pesqueros hasta el procesamiento 
-                en planta y la entrega final. Esto nos permite ofrecer productos 
-                frescos, trazables y de máxima calidad.
+                Capturamos, procesamos y distribuimos productos del mar 
+                manteniendo control total de la cadena de valor.
+                Calidad premium, trazabilidad y entrega sin intermediarios.
             </p>
-            <a href="#productos" class="btn">Ver productos</a>
+
+            <a href="pagina3.html" class="btn">Comprar productos</a>
         </section>
 
-        <!-- DIFERENCIAL -->
-        <section class="diferencial">
-            <h2>Nuestra diferencia</h2>
+        <!-- PROCESO -->
+        <section class="proceso">
+
+            <h2>Nuestro proceso</h2>
 
             <div class="grid">
-                <article class="card">
-                    <h3>Pesca propia</h3>
-                    <p>Operamos con flota propia en el Atlántico Sur, asegurando materia prima de primera calidad.</p>
+
+                <article class="paso">
+                    <h3>⚓ Captura</h3>
+                    <p>
+                        Nuestra flota opera en el Atlántico Sur obteniendo pesca fresca diariamente.
+                    </p>
                 </article>
 
-                <article class="card">
-                    <h3>Procesamiento inmediato</h3>
-                    <p>El pescado es fileteado en planta pocas horas después de su captura.</p>
+                <article class="paso">
+                    <h3>🏭 Procesamiento</h3>
+                    <p>
+                        El pescado llega a planta y se procesa rápidamente para mantener frescura.
+                    </p>
                 </article>
+
+                <article class="paso">
+                    <h3>🚛 Distribución</h3>
+                    <p>
+                        Conservamos cadena de frío durante toda la logística.
+                    </p>
+                </article>
+
+                <article class="paso">
+                    <h3>🍽️ Consumidor</h3>
+                    <p>
+                        Productos listos para restaurantes, supermercados y consumidores finales.
+                    </p>
+                </article>
+
+            </div>
+
+        </section>
+
+        <!-- PRODUCTOS DESTACADOS -->
+        <section class="productos-home">
+
+            <h2>Productos destacados</h2>
+
+            <div class="grid">
+
+                <article class="producto">
+                    <h3>Merluza</h3>
+                    <p>$12.000/kg</p>
+                </article>
+
+                <article class="producto">
+                    <h3>Langostinos</h3>
+                    <p>$18.000/kg</p>
+                </article>
+
+                <article class="producto">
+                    <h3>Calamar</h3>
+                    <p>$14.000/kg</p>
+                </article>
+
+            </div>
+
+            <div style="text-align:center; margin-top:30px;">
+                <a href="pagina3.html" class="btn">Ver catálogo completo</a>
+            </div>
+
+        </section>
+
+        <!-- CONFIANZA -->
+        <section class="diferencial">
+
+            <h2>¿Por qué elegirnos?</h2>
+
+            <div class="grid">
 
                 <article class="card">
                     <h3>Cadena de frío</h3>
-                    <p>Mantenemos la temperatura controlada en todo el proceso logístico.</p>
+                    <p>Temperatura controlada durante todo el proceso.</p>
                 </article>
 
                 <article class="card">
-                    <h3>Entrega directa</h3>
-                    <p>Sin intermediarios: del productor directamente al consumidor.</p>
+                    <h3>Pesca responsable</h3>
+                    <p>Compromiso con prácticas sustentables.</p>
                 </article>
+
+                <article class="card">
+                    <h3>Exportación</h3>
+                    <p>Capacidad para abastecer mercados nacionales e internacionales.</p>
+                </article>
+
             </div>
-        </section>
 
-        <!-- PRODUCTOS -->
-        <section id="productos" class="productos">
-            <h2>Nuestros productos</h2>
-
-            <div class="grid">
-                <article class="producto">
-                    <h3>Pescados frescos</h3>
-                    <p>Merluza, corvina y otras especies seleccionadas diariamente.</p>
-                </article>
-
-                <article class="producto">
-                    <h3>Mariscos</h3>
-                    <p>Camarones, langostinos y productos premium del mar.</p>
-                </article>
-
-                <article class="producto">
-                    <h3>Congelados</h3>
-                    <p>Opciones prácticas que mantienen la calidad y frescura.</p>
-                </article>
-            </div>
         </section>
 
     </main>
 
-    <!-- FOOTER -->
     <footer class="footer">
-        <p>&copy; 2026 Pesca Atlántica. Todos los derechos reservados.</p>
+        <p>© 2026 Pesca Atlántica | Todos los derechos reservados</p>
     </footer>
 
 </body>
