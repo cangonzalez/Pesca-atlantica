@@ -87,9 +87,7 @@ img {
     background-color: var(--negro);
     padding: var(--espacio-md) 0;
     border-bottom: 1px solid var(--gris-oscuro);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    /* SIN position: sticky - scrollea normalmente */
     width: 100%;
 }
 
@@ -114,8 +112,8 @@ img {
     background-color: var(--negro-suave);
     padding: 0;
     border-bottom: 1px solid var(--gris-oscuro);
-    position: sticky;
-    top: 0; /* Se pega al tope cuando el header sube */
+    position: sticky; /* SOLO el nav se pega */
+    top: 0;
     z-index: 999;
     width: 100%;
 }
