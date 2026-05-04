@@ -2,36 +2,55 @@
     {
         "id": 1,
         "nombre": "Merluza",
-        "precio": 12000,
+        "precio": 1200,
         "categoria": "Pescado",
-        "imagen": "imagenes/merluza.jpg"
+        "imagen": "imagenes/merluza.jpg",
+        "descripcion": "Merluza fresca del Atlántico Sur. Carne blanca y delicada, ideal para al horno o a la plancha.",
+        "precioPor": "100gr"
     },
     {
         "id": 2,
         "nombre": "Langostinos",
-        "precio": 18000,
+        "precio": 1800,
         "categoria": "Mariscos",
-        "imagen": "imagenes/langostinos.jpg"
+        "imagen": "imagenes/langostinos.png",
+        "descripcion": "Langostinos frescos de tamaño jumbo. Perfectos para parrilla, al ajillo o ceviche.",
+        "precioPor": "100gr"
     },
     {
         "id": 3,
         "nombre": "Calamar",
-        "precio": 14000,
+        "precio": 1400,
         "categoria": "Mariscos",
-        "imagen": "imagenes/calamar.jpg"
+        "imagen": "imagenes/calamar.png",
+        "descripcion": "Calamar fresco entero. Excelente para rabas, a la romana o rellenos.",
+        "precioPor": "100gr"
     },
     {
         "id": 4,
         "nombre": "Corvina",
-        "precio": 15000,
+        "precio": 1500,
         "categoria": "Pescado",
-        "imagen": "imagenes/corvina.jpg"
+        "imagen": "imagenes/corbina.png",
+        "descripcion": "Corvina negra fresca. Pescado de carne firme, ideal para cualquier preparación.",
+        "precioPor": "100gr"
     },
     {
         "id": 5,
         "nombre": "Salmón",
-        "precio": 22000,
+        "precio": 2200,
         "categoria": "Premium",
-        "imagen": "imagenes/salmon.jpg"
+        "imagen": "imagenes/salmon.png",
+        "descripcion": "Filete de salmón rosado premium. Perfecto para sushi, parrilla o al horno.",
+        "precioPor": "100gr"
+    },
+    {
+        "id": 6,
+        "nombre": "Croquetas de Bacalao",
+        "precio": 800,
+        "categoria": "Elaborados",
+        "imagen": "imagenes/croquetas_bacalao.png",
+        "descripcion": "Croquetas artesanales de bacalao. Listas para freír, crujientes por fuera y cremosas por dentro.",
+        "precioPor": "100gr"
     }
 ]

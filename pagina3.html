@@ -27,6 +27,12 @@
     </ul>
 </nav>
 
+<!-- ICONO DE CARRITO -->
+<div class="cart-icon" id="cart-icon" onclick="toggleCartSidebar()">
+    🛒
+    <span class="cart-count" id="cart-count">0</span>
+</div>
+
 <main>
 
 <section class="text-center mb-lg">
@@ -38,14 +44,126 @@
     </p>
 
     <div class="grid" id="contenedor-productos">
-        <!-- Productos cargados dinámicamente con JS -->
+        <!-- Productos cargados dinámicamente -->
     </div>
 </section>
 
 </main>
 
+<!-- SIDEBAR DEL CARRITO -->
+<div class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+        <h2>Tu Carrito</h2>
+        <button class="modal-close" onclick="closeCartSidebar()">×</button>
+    </div>
+    
+    <div class="cart-items" id="cart-items">
+        <div class="empty-cart">
+            <p>Tu carrito está vacío</p>
+        </div>
+    </div>
+    
+    <div class="cart-footer">
+        <div class="cart-total">
+            <span>Total:</span>
+            <span id="cart-total">$0</span>
+        </div>
+        <button class="checkout-btn" onclick="checkout()">
+            Finalizar Compra
+        </button>
+    </div>
+</div>
+
+<!-- MODAL DE PRODUCTO -->
+<div class="modal-overlay" id="product-modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeProductModal()">×</button>
+        
+        <div>
+            <img id="modal-image" src="" alt="" class="modal-image">
+        </div>
+        
+        <div class="modal-info">
+            <h2 id="modal-name"></h2>
+            <p style="font-size: 0.9rem; color: #666; text-transform: uppercase; letter-spacing: 1px;" id="modal-category"></p>
+            <p id="modal-description"></p>
+            
+            <div class="weight-selector">
+                <label>Seleccioná el peso:</label>
+                <div class="weight-options">
+                    <button class="weight-btn active" onclick="selectWeight(100)">100gr</button>
+                    <button class="weight-btn" onclick="selectWeight(200)">200gr</button>
+                    <button class="weight-btn" onclick="selectWeight(300)">300gr</button>
+                    <button class="weight-btn" onclick="selectWeight(400)">400gr</button>
+                    <button class="weight-btn" onclick="selectWeight(500)">500gr</button>
+                    <button class="weight-btn" onclick="selectWeight(600)">600gr</button>
+                    <button class="weight-btn" onclick="selectWeight(700)">700gr</button>
+                    <button class="weight-btn" onclick="selectWeight(800)">800gr</button>
+                    <button class="weight-btn" onclick="selectWeight(900)">900gr</button>
+                    <button class="weight-btn" onclick="selectWeight(1000)">1kg</button>
+                </div>
+                
+                <div class="weight-input">
+                    <input 
+                        type="number" 
+                        id="weight-input" 
+                        value="100" 
+                        min="100" 
+                        max="1000" 
+                        step="50"
+                        oninput="updateWeightFromInput()"
+                    >
+                    <span>gramos</span>
+                </div>
+            </div>
+            
+            <div class="price-display">
+                <p id="unit-price">$0 por 100gr</p>
+                <p class="total-price" id="total-price">$0</p>
+            </div>
+            
+            <button class="add-to-cart-btn" onclick="addToCart()">
+                Agregar al Carrito
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DE LOGIN -->
+<div class="modal-overlay login-modal" id="login-modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeLoginModal()">×</button>
+        
+        <form class="login-form" id="login-form" onsubmit="handleLogin(event)">
+            <h2>Iniciar Sesión</h2>
+            
+            <input 
+                type="email" 
+                id="login-email" 
+                placeholder="Email" 
+                required
+            >
+            
+            <input 
+                type="password" 
+                id="login-password" 
+                placeholder="Contraseña" 
+                required
+            >
+            
+            <button type="submit">Ingresar</button>
+            
+            <p class="login-toggle">
+                <span id="toggle-text">¿No tenés cuenta? </span>
+                <a id="toggle-link" onclick="toggleLoginMode()">Registrate</a>
+            </p>
+        </form>
+    </div>
+</div>
+
 <footer class="footer">
     <p>© 2026 Pescatlántica. Todos los derechos reservados.</p>
+    <p>Pesca sostenible • Calidad garantizada • Tradición familiar</p>
 </footer>
 
 <script src="js/productos.js"></script>
