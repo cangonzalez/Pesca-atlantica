@@ -667,7 +667,13 @@ section {
     }
 }
 
-section {
+/* NOTA: No aplicamos fadeIn a section porque rompe position: sticky
+   del header/nav. Si querés animaciones, aplicá fadeIn solo a 
+   elementos específicos como .card o .producto */
+
+/* Opcional: Animaciones en elementos individuales (no rompe sticky) */
+.card,
+.producto {
     animation: fadeIn var(--transicion-suave) ease-out;
 }
 
