@@ -9,15 +9,20 @@ export function CartProvider({ children }) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const savedCart = localStorage.getItem('cart');
-    const savedUser = localStorage.getItem('user');
-    
-    if (savedCart) {
-      setCart(JSON.parse(savedCart));
-    }
-    
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
+    try {
+      const savedCart = localStorage.getItem('cart');
+      const savedUser = localStorage.getItem('user');
+
+      if (savedCart) {
+        setCart(JSON.parse(savedCart));
+      }
+
+      if (savedUser) {
+        setUser(JSON.parse(savedUser));
+      }
+    } catch {
+      localStorage.removeItem('cart');
+      localStorage.removeItem('user');
     }
   }, []);
 
