@@ -7,12 +7,8 @@ export default function ProductosPage() {
           </h2>
           <p style={{ fontSize: '1.125rem', color: '#666', maxWidth: '700px', margin: '0 auto 40px' }}>
             Productos frescos y congelados provenientes del Atlántico Sur.
-            Captura diaria, procesamiento inmediato y distribución refrigerada.
           </p>
-  
-          <div className="grid" id="contenedor-productos">
-            <p>Cargando productos...</p>
-          </div>
+          <p>(Página de productos - próximamente con catálogo interactivo)</p>
         </section>
       </main>
     );
