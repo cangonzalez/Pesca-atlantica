@@ -1,5 +1,12 @@
 import { CartProvider } from '../context/CartContext';
+import { Poppins } from 'next/font/google';
 import '../styles/globals.css';
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '700'],
+  display: 'swap'
+});
 
 export const metadata = {
   title: 'Pescatlántica - Pescadería Artesanal',
@@ -9,10 +16,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
-      <head>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet" />
-      </head>
-      <body>
+      <body className={poppins.className}>
         <CartProvider>
           <header className="header">
             <img src="/imagenes/logo.jpeg" alt="Logo Pescatlántica" className="logo" />

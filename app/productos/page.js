@@ -1,39 +1,18 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ProductCard from '../../components/ProductCard';
 import { useCart } from '../../context/CartContext';
+import productos from '../../public/productos.json';
 
 const GRAMOS_DISPONIBLES = [100, 200, 250, 300, 350, 500, 600, 700, 800, 1000];
 
 export default function ProductosPage() {
   const { cart, addToCart, removeFromCart, clearCart, getTotal } = useCart();
-  const [productos, setProductos] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedGrams, setSelectedGrams] = useState(100);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const cartItemCount = cart.reduce((sum, item) => sum + (item.cantidad || 1), 0);
-
-  // useEffect para cargar productos
-  useEffect(() => {
-    fetch('/productos.json')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Error al cargar productos');
-        }
-        return response.json();
-      })
-      .then(data => {
-        setProductos(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
 
   const openProductModal = (producto) => {
     setSelectedProduct(producto);
@@ -78,26 +57,6 @@ export default function ProductosPage() {
     closeProductModal();
     setIsCartOpen(true);
   };
-
-  if (loading) {
-    return (
-      <main>
-        <section style={{ textAlign: 'center', padding: '60px 20px' }}>
-          <p>Cargando productos...</p>
-        </section>
-      </main>
-    );
-  }
-
-  if (error) {
-    return (
-      <main>
-        <section style={{ textAlign: 'center', padding: '60px 20px' }}>
-          <p style={{ color: '#666' }}>Error: {error}</p>
-        </section>
-      </main>
-    );
-  }
 
   return (
     <main>
@@ -147,8 +106,8 @@ export default function ProductosPage() {
         {cartItemCount > 0 && <span className="cart-count">{cartItemCount}</span>}
       </button>
 
-      <div className={`modal-overlay ${selectedProduct ? 'active' : ''}`} role="dialog" aria-modal="true">
-        {selectedProduct && (
+      {selectedProduct && (
+        <div className="modal-overlay active" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
           <div className="modal-content">
             <button
               className="modal-close"
@@ -166,7 +125,7 @@ export default function ProductosPage() {
             />
 
             <div className="modal-info">
-              <h2>{selectedProduct.nombre}</h2>
+              <h2 id="product-modal-title">{selectedProduct.nombre}</h2>
               <p>{selectedProduct.descripcion}</p>
               <p>
                 <strong>{formatPrice(selectedProduct.precio)}</strong> / {selectedProduct.precioPor}
@@ -198,8 +157,8 @@ export default function ProductosPage() {
               </button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       <aside className={`cart-sidebar ${isCartOpen ? 'active' : ''}`} aria-label="Carrito de compras">
         <div className="cart-header">

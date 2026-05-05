@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 
 const CartContext = createContext();
 
@@ -35,7 +35,11 @@ export function CartProvider({ children }) {
     }
   }, [cart, isLoaded]);
 
-  const addToCart = (item) => {
+  const total = useMemo(() => {
+    return cart.reduce((sum, item) => sum + item.precioTotal, 0);
+  }, [cart]);
+
+  const addToCart = useCallback((item) => {
     setCart((currentCart) => {
       const existingIndex = currentCart.findIndex(
         i => i.id === item.id && i.peso === item.peso
@@ -58,20 +62,17 @@ export function CartProvider({ children }) {
 
       return [...currentCart, { ...item, cantidad: 1, gramosTotales: item.gramos }];
     });
-  };
+  }, []);
 
-  const removeFromCart = (index) => {
-    const newCart = cart.filter((_, i) => i !== index);
-    setCart(newCart);
-  };
+  const removeFromCart = useCallback((index) => {
+    setCart((currentCart) => currentCart.filter((_, i) => i !== index));
+  }, []);
 
-  const clearCart = () => {
+  const clearCart = useCallback(() => {
     setCart([]);
-  };
+  }, []);
 
-  const getTotal = () => {
-    return cart.reduce((sum, item) => sum + item.precioTotal, 0);
-  };
+  const getTotal = useCallback(() => total, [total]);
 
   return (
     <CartContext.Provider value={{
@@ -80,6 +81,7 @@ export function CartProvider({ children }) {
       addToCart,
       removeFromCart,
       clearCart,
+      total,
       getTotal
     }}>
       {children}

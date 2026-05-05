@@ -1061,67 +1061,6 @@ section {
 }
 
 /* ============================================
-   MODAL LOGIN
-   ============================================ */
-
-.login-modal .modal-content {
-    grid-template-columns: 1fr;
-    max-width: 500px;
-    padding: var(--espacio-xl);
-}
-
-.login-form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--espacio-md);
-}
-
-.login-form h2 {
-    text-align: center;
-    margin-bottom: var(--espacio-md);
-}
-
-.login-form input {
-    padding: var(--espacio-md);
-    border: 2px solid var(--gris-claro);
-    border-radius: var(--radio-md);
-    font-size: 1rem;
-}
-
-.login-form input:focus {
-    outline: none;
-    border-color: var(--negro);
-}
-
-.login-form button {
-    padding: var(--espacio-md);
-    background-color: var(--negro);
-    color: var(--blanco);
-    border: none;
-    border-radius: 50px;
-    font-size: 1rem;
-    font-weight: var(--peso-medium);
-    cursor: pointer;
-    transition: all var(--transicion-normal);
-}
-
-.login-form button:hover {
-    background-color: var(--gris-oscuro);
-}
-
-.login-toggle {
-    text-align: center;
-    margin-top: var(--espacio-sm);
-    color: var(--gris-medio);
-}
-
-.login-toggle a {
-    color: var(--negro);
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-/* ============================================
    RESPONSIVE MODALES Y CARRITO
    ============================================ */
 
