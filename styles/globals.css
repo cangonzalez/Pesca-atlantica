@@ -510,6 +510,13 @@ section {
     gap: var(--espacio-md);
 }
 
+.form-contacto label {
+    display: block;
+    font-weight: var(--peso-medium);
+    margin-bottom: var(--espacio-xs);
+    color: var(--negro);
+}
+
 .form-contacto input,
 .form-contacto textarea {
     width: 100%;
@@ -717,16 +724,20 @@ section {
     right: 20px;
     background-color: var(--negro);
     color: var(--blanco);
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
+    min-width: 112px;
+    height: 48px;
+    border: none;
+    border-radius: 999px;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0 var(--espacio-md);
     cursor: pointer;
     z-index: 2000;
     box-shadow: var(--sombra-lg);
     transition: all var(--transicion-normal);
+    font-family: var(--font-principal);
+    font-weight: var(--peso-medium);
 }
 
 .cart-icon:hover {
@@ -1038,6 +1049,11 @@ section {
     background-color: var(--gris-oscuro);
 }
 
+.checkout-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
 .empty-cart {
     text-align: center;
     padding: var(--espacio-xl);
@@ -1129,7 +1145,7 @@ section {
     }
     
     .cart-icon {
-        width: 50px;
-        height: 50px;
+        min-width: 96px;
+        height: 44px;
     }
 }

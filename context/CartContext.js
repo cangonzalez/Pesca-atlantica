@@ -7,6 +7,7 @@ const CartContext = createContext();
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
   const [user, setUser] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     try {
@@ -23,25 +24,40 @@ export function CartProvider({ children }) {
     } catch {
       localStorage.removeItem('cart');
       localStorage.removeItem('user');
+    } finally {
+      setIsLoaded(true);
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]);
+    if (isLoaded) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+  }, [cart, isLoaded]);
 
   const addToCart = (item) => {
-    const existingIndex = cart.findIndex(
-      i => i.id === item.id && i.peso === item.peso
-    );
+    setCart((currentCart) => {
+      const existingIndex = currentCart.findIndex(
+        i => i.id === item.id && i.peso === item.peso
+      );
 
-    if (existingIndex !== -1) {
-      const newCart = [...cart];
-      newCart[existingIndex].precioTotal += item.precioTotal;
-      setCart(newCart);
-    } else {
-      setCart([...cart, item]);
-    }
+      if (existingIndex !== -1) {
+        return currentCart.map((cartItem, index) => {
+          if (index !== existingIndex) {
+            return cartItem;
+          }
+
+          return {
+            ...cartItem,
+            cantidad: (cartItem.cantidad || 1) + 1,
+            gramosTotales: (cartItem.gramosTotales || cartItem.gramos) + item.gramos,
+            precioTotal: cartItem.precioTotal + item.precioTotal
+          };
+        });
+      }
+
+      return [...currentCart, { ...item, cantidad: 1, gramosTotales: item.gramos }];
+    });
   };
 
   const removeFromCart = (index) => {

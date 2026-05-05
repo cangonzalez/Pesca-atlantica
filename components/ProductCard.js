@@ -1,8 +1,8 @@
 'use client';
 
-export default function ProductCard({ producto, onClick }) {
+export default function ProductCard({ producto, onAdd }) {
   return (
-    <div className="producto" onClick={() => onClick(producto)}>
+    <article className="producto">
       <img
         src={producto.imagen}
         alt={producto.nombre}
@@ -15,9 +15,9 @@ export default function ProductCard({ producto, onClick }) {
 
       <p>${producto.precio} / {producto.precioPor}</p>
 
-      <button className="btn">
-        Ver detalles
+      <button className="btn" type="button" onClick={() => onAdd(producto)}>
+        Agregar al carrito
       </button>
-    </div>
+    </article>
   );
 }
