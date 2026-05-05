@@ -2,7 +2,7 @@ export default function Home() {
     return (
       <main>
         <section className="hero">
-          <h2>Del Atlántico Sur al consumidor final</h2>
+          <h2>Frescura del mar, directo a tu mesa</h2>
           <p>
             En Pescatlántica controlamos toda la cadena:
             captura, procesamiento, distribución y venta.

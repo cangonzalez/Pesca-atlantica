@@ -10,7 +10,7 @@ const poppins = Poppins({
 
 export const metadata = {
   title: 'Pescatlántica - Pescadería Artesanal',
-  description: 'Del Atlántico Sur al consumidor final.',
+  description: 'Frescura del mar, directo a tu mesa.',
 };
 
 export default function RootLayout({ children }) {
