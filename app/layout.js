@@ -1,4 +1,5 @@
 import { CartProvider } from '../context/CartContext';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 import { Poppins } from 'next/font/google';
 import '../styles/globals.css';
 
@@ -20,6 +21,7 @@ export default function RootLayout({ children }) {
         <CartProvider>
           <header className="header">
             <img src="/imagenes/logo.jpeg" alt="Logo Pescatlántica" className="logo" />
+            <LanguageSwitcher />
           </header>
 
           <nav className="nav">
