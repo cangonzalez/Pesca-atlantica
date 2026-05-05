@@ -204,7 +204,7 @@ section {
             rgba(26, 26, 26, 0.88) 50%,
             rgba(42, 42, 42, 0.90) 100%
         ),
-        url("../imagenes/barco_frente.png");
+        url("/imagenes/barco_frente.png");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
