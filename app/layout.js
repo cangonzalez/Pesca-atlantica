@@ -1,4 +1,5 @@
 import { CartProvider } from '../context/CartContext';
+import CartSidebar from '../components/CartSidebar';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { Poppins } from 'next/font/google';
 import '../styles/globals.css';
@@ -34,6 +35,8 @@ export default function RootLayout({ children }) {
           </nav>
 
           {children}
+
+          <CartSidebar />
 
           <footer className="footer">
             <p>© 2026 Pescatlántica. Todos los derechos reservados.</p>
