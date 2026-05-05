@@ -4,9 +4,9 @@ import Script from 'next/script';
 import { useEffect, useState } from 'react';
 
 const LANGUAGES = [
-  { code: 'es', label: 'ES', title: 'Español' },
-  { code: 'en', label: 'EN', title: 'English' },
-  { code: 'el', label: 'GR', title: 'Griego' }
+  { code: 'es', label: '🇦🇷 Español', title: 'Español' },
+  { code: 'en', label: '🇬🇧 English', title: 'English' },
+  { code: 'el', label: '🇬🇷 Ελληνικά', title: 'Griego' }
 ];
 
 function clearGoogleTranslateCookie() {
@@ -54,18 +54,19 @@ export default function LanguageSwitcher() {
   return (
     <div className="language-switcher" aria-label="Traductor de idioma">
       <div id="google_translate_element" className="google-translate-widget" />
-      {LANGUAGES.map((language) => (
-        <button
-          key={language.code}
-          type="button"
-          className={activeLanguage === language.code ? 'active' : ''}
-          onClick={() => changeLanguage(language.code)}
-          title={language.title}
-          aria-label={`Traducir a ${language.title}`}
-        >
-          {language.label}
-        </button>
-      ))}
+      <label htmlFor="language-select">Idioma</label>
+      <select
+        id="language-select"
+        value={activeLanguage}
+        onChange={(event) => changeLanguage(event.target.value)}
+        aria-label="Seleccionar idioma"
+      >
+        {LANGUAGES.map((language) => (
+          <option key={language.code} value={language.code}>
+            {language.label}
+          </option>
+        ))}
+      </select>
       <Script
         src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
         strategy="afterInteractive"

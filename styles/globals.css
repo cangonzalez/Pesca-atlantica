@@ -117,24 +117,50 @@ img {
     align-items: center;
 }
 
-.language-switcher button {
-    background-color: transparent;
+.language-switcher label {
+    color: var(--gris-claro);
+    font-size: 0.75rem;
+    font-weight: var(--peso-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.language-switcher select {
+    appearance: none;
+    background-color: rgba(255, 255, 255, 0.08);
     color: var(--gris-claro);
     border: 1px solid var(--gris-medio);
     border-radius: var(--radio-sm);
-    padding: 8px 10px;
+    padding: 8px 34px 8px 10px;
     font-family: inherit;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: var(--peso-medium);
     cursor: pointer;
     transition: all var(--transicion-normal);
+    background-image:
+        linear-gradient(45deg, transparent 50%, var(--gris-claro) 50%),
+        linear-gradient(135deg, var(--gris-claro) 50%, transparent 50%);
+    background-position:
+        calc(100% - 16px) 50%,
+        calc(100% - 11px) 50%;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
 }
 
-.language-switcher button:hover,
-.language-switcher button.active {
+.language-switcher select:hover,
+.language-switcher select:focus {
     background-color: var(--blanco);
     color: var(--negro);
     border-color: var(--blanco);
+    outline: none;
+    background-image:
+        linear-gradient(45deg, transparent 50%, var(--negro) 50%),
+        linear-gradient(135deg, var(--negro) 50%, transparent 50%);
+}
+
+.language-switcher option {
+    color: var(--negro);
+    background-color: var(--blanco);
 }
 
 .google-translate-widget {
