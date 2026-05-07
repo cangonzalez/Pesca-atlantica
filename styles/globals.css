@@ -428,6 +428,16 @@ section {
     line-height: 1.6;
 }
 
+.products-status {
+    color: var(--gris-medio);
+    font-weight: var(--peso-medium);
+    margin: var(--espacio-lg) auto 0;
+}
+
+.products-status.error {
+    color: #a33;
+}
+
 /* ============================================
    CARDS - Corporativo elegante
    ============================================ */

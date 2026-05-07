@@ -4,15 +4,38 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import ProductCard from '../../components/ProductCard';
 import { useCart } from '../../context/CartContext';
-import productos from '../../public/productos.json';
 
 const GRAMOS_DISPONIBLES = [100, 200, 250, 300, 350, 500, 600, 700, 800, 1000];
 
 export default function ProductosPage() {
   const { addToCart } = useCart();
+  const [products, setProducts] = useState([]);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
+  const [productsError, setProductsError] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedGrams, setSelectedGrams] = useState(100);
   const closeButtonRef = useRef(null);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const response = await fetch('/api/productos');
+
+        if (!response.ok) {
+          throw new Error('No se pudieron cargar los productos.');
+        }
+
+        const data = await response.json();
+        setProducts(data.productos);
+      } catch (error) {
+        setProductsError(error.message);
+      } finally {
+        setIsLoadingProducts(false);
+      }
+    };
+
+    loadProducts();
+  }, []);
 
   const openProductModal = (producto) => {
     setSelectedProduct(producto);
@@ -87,15 +110,25 @@ export default function ProductosPage() {
           Productos frescos y congelados provenientes del Atlántico Sur.
         </p>
 
-        <div className="grid" id="contenedor-productos">
-          {productos.map((producto) => (
-            <ProductCard
-              key={producto.id}
-              producto={producto}
-              onAdd={openProductModal}
-            />
-          ))}
-        </div>
+        {isLoadingProducts && <p className="products-status">Cargando productos...</p>}
+
+        {productsError && (
+          <p className="products-status error" role="alert">
+            {productsError}
+          </p>
+        )}
+
+        {!isLoadingProducts && !productsError && (
+          <div className="grid" id="contenedor-productos">
+            {products.map((producto) => (
+              <ProductCard
+                key={producto.id}
+                producto={producto}
+                onAdd={openProductModal}
+              />
+            ))}
+          </div>
+        )}
       </section>
 
       {selectedProduct && (
