@@ -1,7 +1,10 @@
 import { CartProvider } from '../context/CartContext';
 import CartSidebar from '../components/CartSidebar';
 import LanguageSwitcher from '../components/LanguageSwitcher';
+import NavLink from '../components/NavLink';
 import { Poppins } from 'next/font/google';
+import Image from 'next/image';
+import Link from 'next/link';
 import '../styles/globals.css';
 
 const poppins = Poppins({
@@ -21,16 +24,25 @@ export default function RootLayout({ children }) {
       <body className={poppins.className}>
         <CartProvider>
           <header className="header">
-            <img src="/imagenes/logo.jpeg" alt="Logo Pescatlántica" className="logo" />
+            <Link href="/" aria-label="Ir al inicio de Pescatlántica">
+              <Image
+                src="/imagenes/logo.jpeg"
+                alt="Logo Pescatlántica"
+                className="logo"
+                width={180}
+                height={180}
+                priority
+              />
+            </Link>
             <LanguageSwitcher />
           </header>
 
           <nav className="nav">
             <ul>
-              <li><a href="/">Inicio</a></li>
-              <li><a href="/nosotros">Nosotros</a></li>
-              <li><a href="/productos">Productos</a></li>
-              <li><a href="/contacto">Contacto</a></li>
+              <li><NavLink href="/">Inicio</NavLink></li>
+              <li><NavLink href="/nosotros">Nosotros</NavLink></li>
+              <li><NavLink href="/productos">Productos</NavLink></li>
+              <li><NavLink href="/contacto">Contacto</NavLink></li>
             </ul>
           </nav>
 

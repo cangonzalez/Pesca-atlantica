@@ -1,11 +1,9 @@
 export default function NosotrosPage() {
     return (
       <main>
-        <section style={{ textAlign: 'center', padding: '60px 20px', marginBottom: '40px' }}>
-          <h2 style={{ fontSize: '2.5rem', fontWeight: 700, marginBottom: '24px' }}>
-            Quiénes somos
-          </h2>
-          <p style={{ fontSize: '1.125rem', color: '#666', maxWidth: '700px', margin: '0 auto' }}>
+        <section className="page-intro">
+          <h1>Quiénes somos</h1>
+          <p>
             En Pescatlántica controlamos toda la cadena de valor: pesca, procesamiento y distribución.
           </p>
         </section>

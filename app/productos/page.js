@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import ProductCard from '../../components/ProductCard';
 import { useCart } from '../../context/CartContext';
 import productos from '../../public/productos.json';
@@ -11,6 +12,7 @@ export default function ProductosPage() {
   const { addToCart } = useCart();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedGrams, setSelectedGrams] = useState(100);
+  const closeButtonRef = useRef(null);
 
   const openProductModal = (producto) => {
     setSelectedProduct(producto);
@@ -20,6 +22,27 @@ export default function ProductosPage() {
   const closeProductModal = () => {
     setSelectedProduct(null);
   };
+
+  useEffect(() => {
+    if (!selectedProduct) {
+      return;
+    }
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        closeProductModal();
+      }
+    };
+
+    document.body.classList.add('no-scroll');
+    document.addEventListener('keydown', handleKeyDown);
+    closeButtonRef.current?.focus();
+
+    return () => {
+      document.body.classList.remove('no-scroll');
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedProduct]);
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('es-AR', {
@@ -57,28 +80,10 @@ export default function ProductosPage() {
 
   return (
     <main>
-      <section style={{ 
-        textAlign: 'center', 
-        padding: '60px 20px',
-        maxWidth: '1200px',
-        margin: '0 auto'
-      }}>
-        <h2 style={{ 
-          fontSize: '2.5rem', 
-          fontWeight: 700, 
-          marginBottom: '24px',
-          color: '#0a0a0a'
-        }}>
-          Nuestros productos
-        </h2>
+      <section className="page-intro">
+        <h1>Nuestros productos</h1>
         
-        <p style={{ 
-          fontSize: '1.125rem', 
-          color: '#666', 
-          maxWidth: '700px', 
-          margin: '0 auto 60px',
-          lineHeight: '1.6'
-        }}>
+        <p>
           Productos frescos y congelados provenientes del Atlántico Sur.
         </p>
 
@@ -94,9 +99,20 @@ export default function ProductosPage() {
       </section>
 
       {selectedProduct && (
-        <div className="modal-overlay active" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
-          <div className="modal-content">
+        <div
+          className="modal-overlay active"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="product-modal-title"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              closeProductModal();
+            }
+          }}
+        >
+          <div className="modal-content" role="document">
             <button
+              ref={closeButtonRef}
               className="modal-close"
               type="button"
               onClick={closeProductModal}
@@ -105,10 +121,13 @@ export default function ProductosPage() {
               &times;
             </button>
 
-            <img
+            <Image
               src={selectedProduct.imagen}
               alt={selectedProduct.nombre}
               className="modal-image"
+              width={1000}
+              height={545}
+              sizes="(max-width: 768px) 100vw, 450px"
             />
 
             <div className="modal-info">
@@ -127,6 +146,7 @@ export default function ProductosPage() {
                       className={`weight-btn ${selectedGrams === gramos ? 'active' : ''}`}
                       type="button"
                       onClick={() => setSelectedGrams(gramos)}
+                      aria-pressed={selectedGrams === gramos}
                     >
                       {gramos}g
                     </button>

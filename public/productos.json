@@ -13,7 +13,7 @@
         "nombre": "Langostinos",
         "precio": 1800,
         "categoria": "Mariscos",
-        "imagen": "/imagenes/langostinos.png",
+        "imagen": "/imagenes/langostinos.jpg",
         "descripcion": "Langostinos frescos de tamaño jumbo. Perfectos para parrilla, al ajillo o ceviche.",
         "precioPor": "100gr"
     },
@@ -22,7 +22,7 @@
         "nombre": "Calamar",
         "precio": 1400,
         "categoria": "Mariscos",
-        "imagen": "/imagenes/calamar.png",
+        "imagen": "/imagenes/calamar.jpg",
         "descripcion": "Calamar fresco entero. Excelente para rabas, a la romana o rellenos.",
         "precioPor": "100gr"
     },
@@ -31,7 +31,7 @@
         "nombre": "Corvina",
         "precio": 1500,
         "categoria": "Pescado",
-        "imagen": "/imagenes/corbina.png",
+        "imagen": "/imagenes/corbina.jpg",
         "descripcion": "Corvina negra fresca. Pescado de carne firme, ideal para cualquier preparación.",
         "precioPor": "100gr"
     },
@@ -40,7 +40,7 @@
         "nombre": "Salmón",
         "precio": 2200,
         "categoria": "Premium",
-        "imagen": "/imagenes/salmon.png",
+        "imagen": "/imagenes/salmon.jpg",
         "descripcion": "Filete de salmón rosado premium. Perfecto para sushi, parrilla o al horno.",
         "precioPor": "100gr"
     },
@@ -49,7 +49,7 @@
         "nombre": "Croquetas de Bacalao",
         "precio": 800,
         "categoria": "Elaborados",
-        "imagen": "/imagenes/croquetas_bacalao.png",
+        "imagen": "/imagenes/croquetas_bacalao.jpg",
         "descripcion": "Croquetas artesanales de bacalao. Listas para freír, crujientes por fuera y cremosas por dentro.",
         "precioPor": "100gr"
     }

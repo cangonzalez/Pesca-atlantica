@@ -1,7 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { useCart } from '../context/CartContext';
+
+const ORDERS_EMAIL = 'contacto@pescatlantica.com';
 
 function formatPrice(price) {
   return new Intl.NumberFormat('es-AR', {
@@ -9,6 +12,29 @@ function formatPrice(price) {
     currency: 'ARS',
     maximumFractionDigits: 0
   }).format(price);
+}
+
+function buildOrderBody(cart, buyer, total) {
+  const items = cart.map((item) => {
+    const quantity = item.cantidad || 1;
+    const weight = item.gramosTotales
+      ? `${item.gramosTotales}g total (${item.peso} x ${quantity})`
+      : item.peso;
+
+    return `- ${item.nombre}: ${weight} - ${formatPrice(item.precioTotal)}`;
+  });
+
+  return [
+    `Cliente: ${buyer.name || buyer.email}`,
+    `Email: ${buyer.email}`,
+    '',
+    'Pedido:',
+    ...items,
+    '',
+    `Total estimado: ${formatPrice(total)}`,
+    '',
+    'Quedo a la espera para coordinar entrega y forma de pago.'
+  ].join('\n');
 }
 
 export default function CartSidebar() {
@@ -24,6 +50,53 @@ export default function CartSidebar() {
     password: ''
   });
   const cartItemCount = cart.reduce((sum, item) => sum + (item.cantidad || 1), 0);
+  const cartButtonRef = useRef(null);
+  const cartCloseButtonRef = useRef(null);
+  const authCloseButtonRef = useRef(null);
+
+  const closeCart = () => {
+    setIsCartOpen(false);
+    cartButtonRef.current?.focus();
+  };
+
+  const closeAuthModal = () => {
+    setIsAuthOpen(false);
+    cartButtonRef.current?.focus();
+  };
+
+  useEffect(() => {
+    if (!isCartOpen && !isAuthOpen) {
+      document.body.classList.remove('no-scroll');
+      return undefined;
+    }
+
+    const handleKeyDown = (event) => {
+      if (event.key !== 'Escape') {
+        return;
+      }
+
+      if (isAuthOpen) {
+        closeAuthModal();
+        return;
+      }
+
+      closeCart();
+    };
+
+    document.body.classList.add('no-scroll');
+    document.addEventListener('keydown', handleKeyDown);
+
+    if (isAuthOpen) {
+      authCloseButtonRef.current?.focus();
+    } else {
+      cartCloseButtonRef.current?.focus();
+    }
+
+    return () => {
+      document.body.classList.remove('no-scroll');
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isCartOpen, isAuthOpen]);
 
   const openAuthModal = (mode = 'register') => {
     setAuthMode(mode);
@@ -49,8 +122,12 @@ export default function CartSidebar() {
       return;
     }
 
-    setPurchaseMessage(`Compra registrada para ${buyer.email}. Nos comunicaremos para coordinar la entrega.`);
-    clearCart();
+    const total = getTotal();
+    const subject = `Pedido web de ${buyer.name || buyer.email}`;
+    const body = buildOrderBody(cart, buyer, total);
+
+    window.location.href = `mailto:${ORDERS_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setPurchaseMessage('Se abrió tu correo con el pedido preparado. El carrito queda guardado hasta que confirmes el envío.');
   };
 
   const handleCheckout = () => {
@@ -80,22 +157,37 @@ export default function CartSidebar() {
   return (
     <>
       <button
+        ref={cartButtonRef}
         className="cart-icon"
         type="button"
         onClick={() => setIsCartOpen(true)}
         aria-label="Abrir carrito"
+        aria-expanded={isCartOpen}
+        aria-controls="cart-sidebar"
       >
         <span>Carrito</span>
         {cartItemCount > 0 && <span className="cart-count">{cartItemCount}</span>}
       </button>
 
-      <aside className={`cart-sidebar ${isCartOpen ? 'active' : ''}`} aria-label="Carrito de compras">
+      <div
+        className={`cart-backdrop ${isCartOpen ? 'active' : ''}`}
+        onClick={closeCart}
+        aria-hidden="true"
+      />
+
+      <aside
+        id="cart-sidebar"
+        className={`cart-sidebar ${isCartOpen ? 'active' : ''}`}
+        aria-label="Carrito de compras"
+        aria-hidden={!isCartOpen}
+      >
         <div className="cart-header">
           <h2>Carrito</h2>
           <button
+            ref={cartCloseButtonRef}
             className="cart-item-remove"
             type="button"
-            onClick={() => setIsCartOpen(false)}
+            onClick={closeCart}
             aria-label="Cerrar carrito"
           >
             &times;
@@ -108,7 +200,14 @@ export default function CartSidebar() {
           ) : (
             cart.map((item, index) => (
               <div className="cart-item" key={`${item.id}-${item.peso}`}>
-                <img src={item.imagen} alt={item.nombre} className="cart-item-image" />
+                <Image
+                  src={item.imagen}
+                  alt={item.nombre}
+                  className="cart-item-image"
+                  width={160}
+                  height={160}
+                  sizes="80px"
+                />
                 <div className="cart-item-info">
                   <h4>{item.nombre}</h4>
                   <p>
@@ -167,12 +266,23 @@ export default function CartSidebar() {
       </aside>
 
       {isAuthOpen && (
-        <div className="modal-overlay active" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
-          <div className="auth-modal">
+        <div
+          className="modal-overlay active"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="auth-modal-title"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              closeAuthModal();
+            }
+          }}
+        >
+          <div className="auth-modal" role="document">
             <button
+              ref={authCloseButtonRef}
               className="modal-close"
               type="button"
-              onClick={() => setIsAuthOpen(false)}
+              onClick={closeAuthModal}
               aria-label="Cerrar registro"
             >
               &times;
@@ -247,7 +357,7 @@ export default function CartSidebar() {
                 />
               </label>
 
-              {authError && <p className="auth-error">{authError}</p>}
+              {authError && <p className="auth-error" role="alert">{authError}</p>}
 
               <button className="checkout-btn" type="submit">
                 {authMode === 'register' ? 'Registrarme y comprar' : 'Entrar y comprar'}

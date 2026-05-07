@@ -1,3 +1,6 @@
+import Image from 'next/image';
+import Link from 'next/link';
+
 export default function Home() {
     return (
       <main>
@@ -7,13 +10,19 @@ export default function Home() {
             En Pescatlántica controlamos toda la cadena:
             captura, procesamiento, distribución y venta.
           </p>
-          <a href="/productos" className="btn">Comprar productos</a>
+          <Link href="/productos" className="btn btn-light">Comprar productos</Link>
         </section>
   
         <section className="flota">
           <div className="grid">
             <div className="imagen-seccion">
-              <img src="/imagenes/barco_costado.png" alt="Flota pesquera" />
+              <Image
+                src="/imagenes/barco_costado.jpg"
+                alt="Flota pesquera"
+                width={1100}
+                height={1836}
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
             </div>
             <div className="texto-seccion">
               <h2>Nuestra flota</h2>
@@ -36,7 +45,13 @@ export default function Home() {
               </p>
             </div>
             <div className="imagen-seccion">
-              <img src="/imagenes/pescado_barco.jpeg" alt="Equipo pescando" />
+              <Image
+                src="/imagenes/pescado_barco.jpeg"
+                alt="Equipo pescando"
+                width={1600}
+                height={1200}
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
             </div>
           </div>
         </section>
@@ -44,7 +59,13 @@ export default function Home() {
         <section className="distribucion">
           <div className="grid">
             <div className="imagen-seccion">
-              <img src="/imagenes/camion.jpeg" alt="Distribución refrigerada" />
+              <Image
+                src="/imagenes/camion.jpeg"
+                alt="Distribución refrigerada"
+                width={1920}
+                height={2560}
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
             </div>
             <div className="texto-seccion">
               <h2>Procesamiento y distribución</h2>
@@ -58,12 +79,18 @@ export default function Home() {
   
         <section className="producto-final">
           <h2>Calidad premium</h2>
-          <img src="/imagenes/merluza.jpg" alt="Merluza premium" />
+          <Image
+            src="/imagenes/merluza.jpg"
+            alt="Merluza premium"
+            width={1024}
+            height={559}
+            sizes="(max-width: 768px) 100vw, 700px"
+          />
           <p>
             Productos frescos y congelados listos para restaurantes,
             supermercados y consumidores finales.
           </p>
-          <a href="/productos" className="btn">Ver catálogo</a>
+          <Link href="/productos" className="btn btn-dark">Ver catálogo</Link>
         </section>
       </main>
     );
