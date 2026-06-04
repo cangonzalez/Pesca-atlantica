@@ -4,8 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useCart } from '../context/CartContext';
 
-const ORDERS_EMAIL = 'contacto@pescatlantica.com';
-
 function formatPrice(price) {
   return new Intl.NumberFormat('es-AR', {
     style: 'currency',
@@ -14,35 +12,14 @@ function formatPrice(price) {
   }).format(price);
 }
 
-function buildOrderBody(cart, buyer, total) {
-  const items = cart.map((item) => {
-    const quantity = item.cantidad || 1;
-    const weight = item.gramosTotales
-      ? `${item.gramosTotales}g total (${item.peso} x ${quantity})`
-      : item.peso;
-
-    return `- ${item.nombre}: ${weight} - ${formatPrice(item.precioTotal)}`;
-  });
-
-  return [
-    `Cliente: ${buyer.name || buyer.email}`,
-    `Email: ${buyer.email}`,
-    '',
-    'Pedido:',
-    ...items,
-    '',
-    `Total estimado: ${formatPrice(total)}`,
-    '',
-    'Quedo a la espera para coordinar entrega y forma de pago.'
-  ].join('\n');
-}
-
 export default function CartSidebar() {
   const { cart, user, removeFromCart, clearCart, getTotal, registerUser, loginUser, logoutUser } = useCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState('register');
   const [authError, setAuthError] = useState('');
+  const [checkoutError, setCheckoutError] = useState('');
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [purchaseMessage, setPurchaseMessage] = useState('');
   const [formData, setFormData] = useState({
     name: '',
@@ -110,8 +87,9 @@ export default function CartSidebar() {
     setAuthError('');
   };
 
-  const completePurchase = (buyer) => {
+  const completePurchase = async (buyer) => {
     setPurchaseMessage('');
+    setCheckoutError('');
 
     if (cart.length === 0) {
       return;
@@ -122,19 +100,35 @@ export default function CartSidebar() {
       return;
     }
 
-    const total = getTotal();
-    const subject = `Pedido web de ${buyer.name || buyer.email}`;
-    const body = buildOrderBody(cart, buyer, total);
+    setIsCheckingOut(true);
 
-    window.location.href = `mailto:${ORDERS_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setPurchaseMessage('Se abrió tu correo con el pedido preparado. El carrito queda guardado hasta que confirmes el envío.');
+    try {
+      const response = await fetch('/api/mercadopago/preference', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ cart, buyer })
+      });
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data.error || 'No se pudo crear el pago de prueba.');
+      }
+
+      setPurchaseMessage('Te estamos llevando al checkout de prueba de Mercado Pago.');
+      window.location.href = data.initPoint;
+    } catch (error) {
+      setCheckoutError(error.message || 'No se pudo conectar con Mercado Pago.');
+      setIsCheckingOut(false);
+    }
   };
 
   const handleCheckout = () => {
     completePurchase(user);
   };
 
-  const handleAuthSubmit = (event) => {
+  const handleAuthSubmit = async (event) => {
     event.preventDefault();
 
     try {
@@ -148,7 +142,7 @@ export default function CartSidebar() {
 
       setIsAuthOpen(false);
       setFormData({ name: '', email: '', password: '' });
-      completePurchase(sessionUser);
+      await completePurchase(sessionUser);
     } catch (error) {
       setAuthError(error.message);
     }
@@ -241,6 +235,8 @@ export default function CartSidebar() {
           )}
 
           {purchaseMessage && <p className="cart-success">{purchaseMessage}</p>}
+          {checkoutError && <p className="cart-error" role="alert">{checkoutError}</p>}
+          <p className="cart-test-note">Modo prueba: el pago se hace con dinero ficticio.</p>
 
           <div className="cart-total">
             <span>Total</span>
@@ -250,15 +246,15 @@ export default function CartSidebar() {
             className="checkout-btn"
             type="button"
             onClick={handleCheckout}
-            disabled={cart.length === 0}
+            disabled={cart.length === 0 || isCheckingOut}
           >
-            Finalizar compra
+            {isCheckingOut ? 'Preparando pago...' : 'Pagar con Mercado Pago'}
           </button>
           <button
             className="clear-cart-btn"
             type="button"
             onClick={clearCart}
-            disabled={cart.length === 0}
+            disabled={cart.length === 0 || isCheckingOut}
           >
             Vaciar carrito
           </button>
@@ -360,7 +356,11 @@ export default function CartSidebar() {
               {authError && <p className="auth-error" role="alert">{authError}</p>}
 
               <button className="checkout-btn" type="submit">
-                {authMode === 'register' ? 'Registrarme y comprar' : 'Entrar y comprar'}
+                {isCheckingOut
+                  ? 'Preparando pago...'
+                  : authMode === 'register'
+                    ? 'Registrarme y pagar'
+                    : 'Entrar y pagar'}
               </button>
             </form>
           </div>
