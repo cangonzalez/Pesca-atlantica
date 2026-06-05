@@ -13,36 +13,34 @@ function formatPrice(price) {
 }
 
 export default function CartSidebar() {
-  const { cart, user, removeFromCart, clearCart, getTotal, registerUser, loginUser, logoutUser } = useCart();
+  const { cart, user, removeFromCart, clearCart, getTotal, saveBuyer } = useCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isAuthOpen, setIsAuthOpen] = useState(false);
-  const [authMode, setAuthMode] = useState('register');
-  const [authError, setAuthError] = useState('');
+  const [isBuyerModalOpen, setIsBuyerModalOpen] = useState(false);
+  const [buyerError, setBuyerError] = useState('');
   const [checkoutError, setCheckoutError] = useState('');
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [purchaseMessage, setPurchaseMessage] = useState('');
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
-    password: ''
+    email: ''
   });
   const cartItemCount = cart.reduce((sum, item) => sum + (item.cantidad || 1), 0);
   const cartButtonRef = useRef(null);
   const cartCloseButtonRef = useRef(null);
-  const authCloseButtonRef = useRef(null);
+  const buyerCloseButtonRef = useRef(null);
 
   const closeCart = () => {
     setIsCartOpen(false);
     cartButtonRef.current?.focus();
   };
 
-  const closeAuthModal = () => {
-    setIsAuthOpen(false);
+  const closeBuyerModal = () => {
+    setIsBuyerModalOpen(false);
     cartButtonRef.current?.focus();
   };
 
   useEffect(() => {
-    if (!isCartOpen && !isAuthOpen) {
+    if (!isCartOpen && !isBuyerModalOpen) {
       document.body.classList.remove('no-scroll');
       return undefined;
     }
@@ -52,8 +50,8 @@ export default function CartSidebar() {
         return;
       }
 
-      if (isAuthOpen) {
-        closeAuthModal();
+      if (isBuyerModalOpen) {
+        closeBuyerModal();
         return;
       }
 
@@ -63,8 +61,8 @@ export default function CartSidebar() {
     document.body.classList.add('no-scroll');
     document.addEventListener('keydown', handleKeyDown);
 
-    if (isAuthOpen) {
-      authCloseButtonRef.current?.focus();
+    if (isBuyerModalOpen) {
+      buyerCloseButtonRef.current?.focus();
     } else {
       cartCloseButtonRef.current?.focus();
     }
@@ -73,18 +71,21 @@ export default function CartSidebar() {
       document.body.classList.remove('no-scroll');
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isCartOpen, isAuthOpen]);
+  }, [isCartOpen, isBuyerModalOpen]);
 
-  const openAuthModal = (mode = 'register') => {
-    setAuthMode(mode);
-    setAuthError('');
-    setIsAuthOpen(true);
+  const openBuyerModal = () => {
+    setFormData({
+      name: user?.name || '',
+      email: user?.email || ''
+    });
+    setBuyerError('');
+    setIsBuyerModalOpen(true);
   };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData((currentData) => ({ ...currentData, [name]: value }));
-    setAuthError('');
+    setBuyerError('');
   };
 
   const completePurchase = async (buyer) => {
@@ -96,7 +97,7 @@ export default function CartSidebar() {
     }
 
     if (!buyer) {
-      openAuthModal('register');
+      openBuyerModal();
       return;
     }
 
@@ -128,23 +129,16 @@ export default function CartSidebar() {
     completePurchase(user);
   };
 
-  const handleAuthSubmit = async (event) => {
+  const handleBuyerSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      let sessionUser;
-
-      if (authMode === 'register') {
-        sessionUser = registerUser(formData);
-      } else {
-        sessionUser = loginUser(formData);
-      }
-
-      setIsAuthOpen(false);
-      setFormData({ name: '', email: '', password: '' });
+      const sessionUser = saveBuyer(formData);
+      setIsBuyerModalOpen(false);
+      setFormData({ name: '', email: '' });
       await completePurchase(sessionUser);
     } catch (error) {
-      setAuthError(error.message);
+      setBuyerError(error.message);
     }
   };
 
@@ -228,10 +222,10 @@ export default function CartSidebar() {
           {user ? (
             <div className="cart-user">
               <span>Comprás como {user.name || user.email}</span>
-              <button type="button" onClick={logoutUser}>Cerrar sesión</button>
+              <button type="button" onClick={openBuyerModal}>Cambiar datos</button>
             </div>
           ) : (
-            <p className="cart-auth-note">Para finalizar la compra tenés que registrarte o iniciar sesión.</p>
+            <p className="cart-auth-note">Para finalizar la compra necesitamos tu nombre y email.</p>
           )}
 
           {purchaseMessage && <p className="cart-success">{purchaseMessage}</p>}
@@ -261,72 +255,45 @@ export default function CartSidebar() {
         </div>
       </aside>
 
-      {isAuthOpen && (
+      {isBuyerModalOpen && (
         <div
           className="modal-overlay active"
           role="dialog"
           aria-modal="true"
-          aria-labelledby="auth-modal-title"
+          aria-labelledby="buyer-modal-title"
           onMouseDown={(event) => {
             if (event.target === event.currentTarget) {
-              closeAuthModal();
+              closeBuyerModal();
             }
           }}
         >
           <div className="auth-modal" role="document">
             <button
-              ref={authCloseButtonRef}
+              ref={buyerCloseButtonRef}
               className="modal-close"
               type="button"
-              onClick={closeAuthModal}
-              aria-label="Cerrar registro"
+              onClick={closeBuyerModal}
+              aria-label="Cerrar datos de compra"
             >
               &times;
             </button>
 
-            <h2 id="auth-modal-title">
-              {authMode === 'register' ? 'Registrate para comprar' : 'Iniciar sesión'}
-            </h2>
-            <p>Necesitamos tus datos para poder confirmar el pedido y coordinar la entrega.</p>
+            <h2 id="buyer-modal-title">Datos para el pedido</h2>
+            <p>Usamos estos datos para enviar el pago a Mercado Pago y coordinar la entrega.</p>
 
-            <div className="auth-tabs" aria-label="Elegir registro o inicio de sesión">
-              <button
-                className={authMode === 'register' ? 'active' : ''}
-                type="button"
-                onClick={() => {
-                  setAuthMode('register');
-                  setAuthError('');
-                }}
-              >
-                Registrarme
-              </button>
-              <button
-                className={authMode === 'login' ? 'active' : ''}
-                type="button"
-                onClick={() => {
-                  setAuthMode('login');
-                  setAuthError('');
-                }}
-              >
-                Ya tengo cuenta
-              </button>
-            </div>
-
-            <form className="auth-form" onSubmit={handleAuthSubmit}>
-              {authMode === 'register' && (
-                <label>
-                  Nombre
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                    minLength={2}
-                    autoComplete="name"
-                  />
-                </label>
-              )}
+            <form className="auth-form" onSubmit={handleBuyerSubmit}>
+              <label>
+                Nombre
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                  minLength={2}
+                  autoComplete="name"
+                />
+              </label>
 
               <label>
                 Email
@@ -340,27 +307,10 @@ export default function CartSidebar() {
                 />
               </label>
 
-              <label>
-                Contraseña
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  required
-                  minLength={6}
-                  autoComplete={authMode === 'register' ? 'new-password' : 'current-password'}
-                />
-              </label>
-
-              {authError && <p className="auth-error" role="alert">{authError}</p>}
+              {buyerError && <p className="auth-error" role="alert">{buyerError}</p>}
 
               <button className="checkout-btn" type="submit">
-                {isCheckingOut
-                  ? 'Preparando pago...'
-                  : authMode === 'register'
-                    ? 'Registrarme y pagar'
-                    : 'Entrar y pagar'}
+                {isCheckingOut ? 'Preparando pago...' : 'Continuar al pago'}
               </button>
             </form>
           </div>

@@ -4,15 +4,6 @@ import { createContext, useContext, useState, useEffect, useMemo, useCallback } 
 
 const CartContext = createContext();
 
-function getStoredUsers() {
-  try {
-    return JSON.parse(localStorage.getItem('users')) || [];
-  } catch {
-    localStorage.removeItem('users');
-    return [];
-  }
-}
-
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
   const [user, setUser] = useState(null);
@@ -93,50 +84,25 @@ export function CartProvider({ children }) {
     setCart([]);
   }, []);
 
-  const registerUser = useCallback(({ name, email, password }) => {
+  const saveBuyer = useCallback(({ name, email }) => {
     const normalizedEmail = email.trim().toLowerCase();
     const normalizedName = name.trim();
-    const savedUsers = getStoredUsers();
-    const userExists = savedUsers.some((savedUser) => savedUser.email === normalizedEmail);
 
     if (!normalizedName) {
-      throw new Error('Ingresá tu nombre para registrarte.');
+      throw new Error('Ingresá tu nombre para continuar.');
     }
 
-    if (userExists) {
-      throw new Error('Ya existe una cuenta con ese email.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      throw new Error('Ingresá un email válido.');
     }
 
-    const newUser = {
+    const sessionUser = {
       name: normalizedName,
-      email: normalizedEmail,
-      password
+      email: normalizedEmail
     };
 
-    localStorage.setItem('users', JSON.stringify([...savedUsers, newUser]));
-    const sessionUser = { name: newUser.name, email: newUser.email };
     setUser(sessionUser);
     return sessionUser;
-  }, []);
-
-  const loginUser = useCallback(({ email, password }) => {
-    const normalizedEmail = email.trim().toLowerCase();
-    const savedUsers = getStoredUsers();
-    const savedUser = savedUsers.find(
-      (currentUser) => currentUser.email === normalizedEmail && currentUser.password === password
-    );
-
-    if (!savedUser) {
-      throw new Error('Email o contraseña incorrectos.');
-    }
-
-    const sessionUser = { name: savedUser.name, email: savedUser.email };
-    setUser(sessionUser);
-    return sessionUser;
-  }, []);
-
-  const logoutUser = useCallback(() => {
-    setUser(null);
   }, []);
 
   const getTotal = useCallback(() => total, [total]);
@@ -148,9 +114,7 @@ export function CartProvider({ children }) {
       addToCart,
       removeFromCart,
       clearCart,
-      registerUser,
-      loginUser,
-      logoutUser,
+      saveBuyer,
       total,
       getTotal
     }}>
