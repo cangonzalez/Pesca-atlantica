@@ -230,7 +230,10 @@ export default function CartSidebar() {
 
           {purchaseMessage && <p className="cart-success">{purchaseMessage}</p>}
           {checkoutError && <p className="cart-error" role="alert">{checkoutError}</p>}
-          <p className="cart-test-note">Modo prueba: el pago se hace con dinero ficticio.</p>
+          <p className="cart-test-note">
+            Modo prueba: abrí el checkout en una ventana de incógnito e ingresá con el usuario comprador
+            de prueba de Mercado Pago.
+          </p>
 
           <div className="cart-total">
             <span>Total</span>

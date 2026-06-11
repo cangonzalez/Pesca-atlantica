@@ -118,18 +118,24 @@ function buildPreferenceItems(cart, baseUrl) {
 }
 
 export async function POST(request) {
-  const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN?.trim();
+  const accessToken = process.env.MERCADOPAGO_TEST_ACCESS_TOKEN?.trim();
 
   if (!accessToken) {
     return NextResponse.json(
-      { error: 'Falta configurar MERCADOPAGO_ACCESS_TOKEN con la credencial de prueba de Mercado Pago.' },
+      {
+        error:
+          'Falta configurar MERCADOPAGO_TEST_ACCESS_TOKEN con el Access Token de Pruebas de Mercado Pago.'
+      },
       { status: 500 }
     );
   }
 
   if (!accessToken.startsWith('TEST-') && !accessToken.startsWith('APP_USR-')) {
     return NextResponse.json(
-      { error: 'Configura un Access Token valido de Mercado Pago para el entorno de prueba.' },
+      {
+        error:
+          'MERCADOPAGO_TEST_ACCESS_TOKEN debe contener el Access Token copiado desde Credenciales de prueba de Mercado Pago.'
+      },
       { status: 500 }
     );
   }
@@ -184,11 +190,11 @@ export async function POST(request) {
       );
     }
 
-    const initPoint = preference.sandbox_init_point || preference.init_point;
+    const initPoint = preference.sandbox_init_point;
 
     if (!initPoint) {
       return NextResponse.json(
-        { error: 'Mercado Pago creo la preferencia, pero no devolvio una URL de checkout.' },
+        { error: 'Mercado Pago no devolvio una URL de sandbox para esta preferencia de prueba.' },
         { status: 502 }
       );
     }
