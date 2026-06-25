@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import productos from '../../../../public/productos.json';
+import { saveOrder } from '../../../../lib/supabaseAdmin';
 
 const MERCADO_PAGO_PREFERENCES_URL = 'https://api.mercadopago.com/checkout/preferences';
 const AVAILABLE_GRAMS = new Set([100, 200, 250, 300, 350, 500, 600, 700, 800, 1000]);
@@ -117,6 +118,10 @@ function buildPreferenceItems(cart, baseUrl) {
   });
 }
 
+function getTotalAmount(items) {
+  return items.reduce((sum, item) => sum + item.unit_price * item.quantity, 0);
+}
+
 export async function POST(request) {
   const accessToken = process.env.MERCADOPAGO_TEST_ACCESS_TOKEN?.trim();
 
@@ -199,10 +204,22 @@ export async function POST(request) {
       );
     }
 
+    const supabaseResult = await saveOrder({
+      external_reference: externalReference,
+      mercadopago_preference_id: preference.id,
+      status: 'preference_created',
+      buyer_name: buyerMetadata.buyer_name || null,
+      buyer_email: buyerMetadata.buyer_email || null,
+      currency: 'ARS',
+      total_amount: getTotalAmount(items),
+      items
+    });
+
     return NextResponse.json({
       preferenceId: preference.id,
       initPoint,
-      externalReference
+      externalReference,
+      supabase: supabaseResult
     });
   } catch (error) {
     return NextResponse.json(
