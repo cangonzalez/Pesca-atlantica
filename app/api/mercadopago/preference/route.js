@@ -146,22 +146,22 @@ export async function POST(request) {
     const items = buildPreferenceItems(cart, publicBaseUrl);
     const backUrls = buildBackUrls(publicBaseUrl);
     const externalReference = `pescatlantica-${Date.now()}`;
+    const buyerMetadata = buyer && isValidEmail(buyer.email)
+      ? {
+          buyer_name: buyer.name || '',
+          buyer_email: buyer.email
+        }
+      : {};
     const body = {
       items,
       external_reference: externalReference,
       statement_descriptor: 'PESCATLANTICA',
       metadata: {
         source: 'pescatlantica-web',
-        environment: 'test'
+        environment: 'test',
+        ...buyerMetadata
       }
     };
-
-    if (buyer && isValidEmail(buyer.email)) {
-      body.payer = {
-        name: buyer.name || undefined,
-        email: buyer.email
-      };
-    }
 
     if (backUrls) {
       body.back_urls = backUrls;
