@@ -184,7 +184,10 @@ export default function CartSidebar() {
 
         <div className="cart-items">
           {cart.length === 0 ? (
-            <p className="empty-cart">Todavía no agregaste productos.</p>
+            <div className="empty-cart">
+              <strong>Carrito vacío</strong>
+              <span>Agregá productos para preparar tu pedido.</span>
+            </div>
           ) : (
             cart.map((item, index) => (
               <div className="cart-item" key={`${item.id}-${item.peso}`}>
@@ -219,21 +222,25 @@ export default function CartSidebar() {
         </div>
 
         <div className="cart-footer">
-          {user ? (
-            <div className="cart-user">
-              <span>Comprás como {user.name || user.email}</span>
-              <button type="button" onClick={openBuyerModal}>Cambiar datos</button>
-            </div>
-          ) : (
-            <p className="cart-auth-note">Para finalizar la compra necesitamos tu nombre y email.</p>
-          )}
+          {cart.length > 0 && (
+            <>
+              {user ? (
+                <div className="cart-user">
+                  <span>Comprás como {user.name || user.email}</span>
+                  <button type="button" onClick={openBuyerModal}>Cambiar datos</button>
+                </div>
+              ) : (
+                <p className="cart-auth-note">Para finalizar la compra necesitamos tu nombre y email.</p>
+              )}
 
-          {purchaseMessage && <p className="cart-success">{purchaseMessage}</p>}
-          {checkoutError && <p className="cart-error" role="alert">{checkoutError}</p>}
-          <p className="cart-test-note">
-            Modo prueba: abrí el checkout en una ventana de incógnito e ingresá con el usuario comprador
-            de prueba de Mercado Pago.
-          </p>
+              {purchaseMessage && <p className="cart-success">{purchaseMessage}</p>}
+              {checkoutError && <p className="cart-error" role="alert">{checkoutError}</p>}
+              <p className="cart-test-note">
+                Modo prueba: abrí el checkout en una ventana de incógnito e ingresá con el usuario comprador
+                de prueba de Mercado Pago.
+              </p>
+            </>
+          )}
 
           <div className="cart-total">
             <span>Total</span>
