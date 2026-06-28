@@ -31,11 +31,28 @@ function getGrams(value) {
   return grams;
 }
 
-function getPublicBaseUrl() {
-  const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL;
+function cleanBaseUrl(value) {
+  if (!value) {
+    return '';
+  }
+
+  return value.trim().replace(/\/$/, '');
+}
+
+function getPublicBaseUrl(request) {
+  const configuredUrl = cleanBaseUrl(process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL);
+  const requestOrigin = cleanBaseUrl(request.headers.get('origin'));
 
   if (configuredUrl) {
-    return configuredUrl.replace(/\/$/, '');
+    return configuredUrl;
+  }
+
+  if (requestOrigin?.startsWith('https://')) {
+    return requestOrigin;
+  }
+
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
   }
 
   if (process.env.VERCEL_URL) {
@@ -147,7 +164,7 @@ export async function POST(request) {
 
   try {
     const { cart, buyer } = await request.json();
-    const publicBaseUrl = getPublicBaseUrl();
+    const publicBaseUrl = getPublicBaseUrl(request);
     const items = buildPreferenceItems(cart, publicBaseUrl);
     const backUrls = buildBackUrls(publicBaseUrl);
     const externalReference = `pescatlantica-${Date.now()}`;
