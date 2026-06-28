@@ -11,6 +11,10 @@ function isValidEmail(email) {
   return typeof email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+function isTestUserEmail(email) {
+  return typeof email === 'string' && email.toLowerCase().endsWith('@testuser.com');
+}
+
 function getQuantity(value) {
   const quantity = Number(value || 1);
 
@@ -184,6 +188,13 @@ export async function POST(request) {
         ...buyerMetadata
       }
     };
+
+    if (isTestUserEmail(buyerMetadata.buyer_email)) {
+      body.payer = {
+        email: buyerMetadata.buyer_email,
+        name: buyerMetadata.buyer_name || undefined
+      };
+    }
 
     if (backUrls) {
       body.back_urls = backUrls;
