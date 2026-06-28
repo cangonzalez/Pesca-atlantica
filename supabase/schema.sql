@@ -21,6 +21,9 @@ create table if not exists public.orders (
 
 alter table public.orders enable row level security;
 
+grant usage on schema public to service_role;
+grant select, insert, update on public.orders to service_role;
+
 create index if not exists orders_status_idx on public.orders(status);
 create index if not exists orders_created_at_idx on public.orders(created_at desc);
 create index if not exists orders_buyer_email_idx on public.orders(buyer_email);
