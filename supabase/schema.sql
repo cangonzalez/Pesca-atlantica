@@ -7,6 +7,7 @@ create table if not exists public.orders (
   mercadopago_payment_id text,
   status text not null default 'preference_created',
   status_detail text,
+  buyer_user_id uuid references auth.users(id) on delete set null,
   buyer_name text,
   buyer_email text,
   currency text not null default 'ARS',
@@ -23,10 +24,21 @@ alter table public.orders enable row level security;
 
 grant usage on schema public to service_role;
 grant select, insert, update on public.orders to service_role;
+grant select on public.orders to authenticated;
+
+alter table public.orders add column if not exists buyer_user_id uuid references auth.users(id) on delete set null;
 
 create index if not exists orders_status_idx on public.orders(status);
 create index if not exists orders_created_at_idx on public.orders(created_at desc);
 create index if not exists orders_buyer_email_idx on public.orders(buyer_email);
+create index if not exists orders_buyer_user_id_idx on public.orders(buyer_user_id);
+
+drop policy if exists "Users can read their own orders" on public.orders;
+create policy "Users can read their own orders"
+on public.orders
+for select
+to authenticated
+using (auth.uid() = buyer_user_id);
 
 create or replace function public.set_updated_at()
 returns trigger

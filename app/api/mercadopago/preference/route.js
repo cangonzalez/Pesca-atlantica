@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import productos from '../../../../public/productos.json';
-import { saveOrder } from '../../../../lib/supabaseAdmin';
+import { getUserFromAccessToken, saveOrder } from '../../../../lib/supabaseAdmin';
 
 const MERCADO_PAGO_PREFERENCES_URL = 'https://api.mercadopago.com/checkout/preferences';
 const AVAILABLE_GRAMS = new Set([100, 200, 250, 300, 350, 500, 600, 700, 800, 1000]);
@@ -13,6 +13,26 @@ function isValidEmail(email) {
 
 function isTestUserEmail(email) {
   return typeof email === 'string' && email.toLowerCase().endsWith('@testuser.com');
+}
+
+function getBearerToken(request) {
+  const authorization = request.headers.get('authorization') || '';
+
+  if (!authorization.toLowerCase().startsWith('bearer ')) {
+    return '';
+  }
+
+  return authorization.slice(7).trim();
+}
+
+function getAuthenticatedName(user, buyer) {
+  return (
+    buyer?.name?.trim() ||
+    user?.user_metadata?.name ||
+    user?.user_metadata?.full_name ||
+    user?.email?.split('@')[0] ||
+    ''
+  );
 }
 
 function getQuantity(value) {
@@ -168,16 +188,31 @@ export async function POST(request) {
 
   try {
     const { cart, buyer } = await request.json();
+    const authenticatedUser = await getUserFromAccessToken(getBearerToken(request));
     const publicBaseUrl = getPublicBaseUrl(request);
     const items = buildPreferenceItems(cart, publicBaseUrl);
     const backUrls = buildBackUrls(publicBaseUrl);
     const externalReference = `pescatlantica-${Date.now()}`;
-    const buyerMetadata = buyer && isValidEmail(buyer.email)
+    const buyerMetadata = authenticatedUser
       ? {
-          buyer_name: buyer.name || '',
-          buyer_email: buyer.email
+          buyer_user_id: authenticatedUser.id,
+          buyer_name: getAuthenticatedName(authenticatedUser, buyer),
+          buyer_email: authenticatedUser.email
         }
-      : {};
+      : buyer && isValidEmail(buyer.email)
+        ? {
+            buyer_name: buyer.name || '',
+            buyer_email: buyer.email
+          }
+        : {};
+
+    if (!buyerMetadata.buyer_email) {
+      return NextResponse.json(
+        { error: 'Necesitamos tu nombre y email para preparar el pago.' },
+        { status: 400 }
+      );
+    }
+
     const body = {
       items,
       external_reference: externalReference,
@@ -236,6 +271,7 @@ export async function POST(request) {
       external_reference: externalReference,
       mercadopago_preference_id: preference.id,
       status: 'preference_created',
+      buyer_user_id: buyerMetadata.buyer_user_id || null,
       buyer_name: buyerMetadata.buyer_name || null,
       buyer_email: buyerMetadata.buyer_email || null,
       currency: 'ARS',

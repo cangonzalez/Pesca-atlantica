@@ -1,33 +1,96 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
+import { getSupabaseBrowserClient } from '../lib/supabaseClient';
 
 const CartContext = createContext();
 
+function normalizeBuyer({ name, email }) {
+  const normalizedEmail = email.trim().toLowerCase();
+  const normalizedName = name.trim();
+
+  if (!normalizedName) {
+    throw new Error('Ingresá tu nombre para continuar.');
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+    throw new Error('Ingresá un email válido.');
+  }
+
+  return {
+    name: normalizedName,
+    email: normalizedEmail
+  };
+}
+
+function getNameFromSessionUser(sessionUser) {
+  const metadataName = sessionUser?.user_metadata?.name || sessionUser?.user_metadata?.full_name;
+
+  if (metadataName) {
+    return metadataName;
+  }
+
+  return sessionUser?.email?.split('@')[0] || '';
+}
+
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
-  const [user, setUser] = useState(null);
+  const [guestBuyer, setGuestBuyer] = useState(null);
+  const [authSession, setAuthSession] = useState(null);
+  const [authUser, setAuthUser] = useState(null);
+  const [isAuthReady, setIsAuthReady] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const supabase = useMemo(() => getSupabaseBrowserClient(), []);
 
   useEffect(() => {
     try {
       const savedCart = localStorage.getItem('cart');
-      const savedUser = localStorage.getItem('user');
+      const savedGuestBuyer = localStorage.getItem('guestBuyer') || localStorage.getItem('user');
 
       if (savedCart) {
         setCart(JSON.parse(savedCart));
       }
 
-      if (savedUser) {
-        setUser(JSON.parse(savedUser));
+      if (savedGuestBuyer) {
+        setGuestBuyer(JSON.parse(savedGuestBuyer));
       }
     } catch {
       localStorage.removeItem('cart');
-      localStorage.removeItem('user');
+      localStorage.removeItem('guestBuyer');
     } finally {
       setIsLoaded(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (!supabase) {
+      setIsAuthReady(true);
+      return undefined;
+    }
+
+    let isActive = true;
+
+    supabase.auth.getSession().then(({ data }) => {
+      if (!isActive) {
+        return;
+      }
+
+      setAuthSession(data.session || null);
+      setAuthUser(data.session?.user || null);
+      setIsAuthReady(true);
+    });
+
+    const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
+      setAuthSession(session || null);
+      setAuthUser(session?.user || null);
+      setIsAuthReady(true);
+    });
+
+    return () => {
+      isActive = false;
+      subscription?.subscription?.unsubscribe();
+    };
+  }, [supabase]);
 
   useEffect(() => {
     if (isLoaded) {
@@ -40,16 +103,38 @@ export function CartProvider({ children }) {
       return;
     }
 
-    if (user) {
-      localStorage.setItem('user', JSON.stringify(user));
+    if (guestBuyer) {
+      localStorage.setItem('guestBuyer', JSON.stringify(guestBuyer));
+      localStorage.removeItem('user');
     } else {
+      localStorage.removeItem('guestBuyer');
       localStorage.removeItem('user');
     }
-  }, [user, isLoaded]);
+  }, [guestBuyer, isLoaded]);
 
   const total = useMemo(() => {
     return cart.reduce((sum, item) => sum + item.precioTotal, 0);
   }, [cart]);
+
+  const user = useMemo(() => {
+    if (authUser) {
+      return {
+        id: authUser.id,
+        name: getNameFromSessionUser(authUser),
+        email: authUser.email,
+        isAuthenticated: true
+      };
+    }
+
+    if (guestBuyer) {
+      return {
+        ...guestBuyer,
+        isAuthenticated: false
+      };
+    }
+
+    return null;
+  }, [authUser, guestBuyer]);
 
   const addToCart = useCallback((item) => {
     setCart((currentCart) => {
@@ -84,26 +169,88 @@ export function CartProvider({ children }) {
     setCart([]);
   }, []);
 
-  const saveBuyer = useCallback(({ name, email }) => {
-    const normalizedEmail = email.trim().toLowerCase();
-    const normalizedName = name.trim();
+  const saveBuyer = useCallback((buyer) => {
+    const normalizedBuyer = normalizeBuyer(buyer);
+    setGuestBuyer(normalizedBuyer);
+    return {
+      ...normalizedBuyer,
+      isAuthenticated: false
+    };
+  }, []);
 
-    if (!normalizedName) {
-      throw new Error('Ingresá tu nombre para continuar.');
+  const signIn = useCallback(async ({ email, password }) => {
+    if (!supabase) {
+      throw new Error('Falta configurar las variables públicas de Supabase.');
     }
+
+    const normalizedEmail = email.trim().toLowerCase();
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
       throw new Error('Ingresá un email válido.');
     }
 
-    const sessionUser = {
-      name: normalizedName,
-      email: normalizedEmail
-    };
+    if (!password) {
+      throw new Error('Ingresá tu contraseña.');
+    }
 
-    setUser(sessionUser);
-    return sessionUser;
-  }, []);
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: normalizedEmail,
+      password
+    });
+
+    if (error) {
+      throw new Error(error.message || 'No se pudo iniciar sesión.');
+    }
+
+    setGuestBuyer(null);
+    setAuthSession(data.session || null);
+    setAuthUser(data.user || null);
+
+    return data;
+  }, [supabase]);
+
+  const signUp = useCallback(async ({ name, email, password }) => {
+    if (!supabase) {
+      throw new Error('Falta configurar las variables públicas de Supabase.');
+    }
+
+    const buyer = normalizeBuyer({ name, email });
+
+    if (!password || password.length < 6) {
+      throw new Error('La contraseña tiene que tener al menos 6 caracteres.');
+    }
+
+    const { data, error } = await supabase.auth.signUp({
+      email: buyer.email,
+      password,
+      options: {
+        data: {
+          name: buyer.name
+        }
+      }
+    });
+
+    if (error) {
+      throw new Error(error.message || 'No se pudo crear la cuenta.');
+    }
+
+    setGuestBuyer(null);
+    setAuthSession(data.session || null);
+    setAuthUser(data.user || null);
+
+    return data;
+  }, [supabase]);
+
+  const signOut = useCallback(async () => {
+    if (supabase) {
+      await supabase.auth.signOut();
+    }
+
+    setAuthSession(null);
+    setAuthUser(null);
+  }, [supabase]);
+
+  const getAccessToken = useCallback(() => authSession?.access_token || '', [authSession]);
 
   const getTotal = useCallback(() => total, [total]);
 
@@ -111,10 +258,17 @@ export function CartProvider({ children }) {
     <CartContext.Provider value={{
       cart,
       user,
+      authUser,
+      isAuthenticated: Boolean(authUser),
+      isAuthReady,
       addToCart,
       removeFromCart,
       clearCart,
       saveBuyer,
+      signIn,
+      signUp,
+      signOut,
+      getAccessToken,
       total,
       getTotal
     }}>
