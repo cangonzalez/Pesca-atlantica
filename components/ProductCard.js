@@ -22,9 +22,9 @@ export default function ProductCard({ producto, onAdd }) {
         sizes="(max-width: 768px) 100vw, 33vw"
       />
 
-      <h3>{producto.nombre}</h3>
+      <span className="producto-categoria">{producto.categoria}</span>
 
-      <p>Categoría: {producto.categoria}</p>
+      <h3>{producto.nombre}</h3>
 
       <p>{formatPrice(producto.precio)} / {producto.precioPor}</p>
 

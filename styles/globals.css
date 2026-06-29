@@ -786,10 +786,24 @@ section {
     transform: scale(1.12);
 }
 
+.producto-categoria {
+    display: inline-block;
+    margin: var(--espacio-sm) var(--espacio-md) 0;
+    padding: 3px 10px;
+    background-color: var(--gris-muy-claro);
+    border: 1px solid var(--gris-claro);
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: var(--peso-medium);
+    color: var(--gris-medio);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 .producto h3 {
     font-size: 1.25rem;
     font-weight: var(--peso-bold);
-    padding: var(--espacio-sm) var(--espacio-md) 0;
+    padding: var(--espacio-xs) var(--espacio-md) 0;
     color: var(--negro);
 }
 
