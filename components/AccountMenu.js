@@ -141,7 +141,21 @@ export default function AccountMenu() {
         aria-expanded={isMenuOpen}
       >
         <span className="account-avatar" aria-hidden="true">
-          {isAuthenticated ? (displayName || 'C').charAt(0).toUpperCase() : '?'}
+          {isAuthenticated ? (
+            (displayName || 'C').charAt(0).toUpperCase()
+          ) : (
+            <svg
+              className="account-person-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M20 21a8 8 0 0 0-16 0" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          )}
         </span>
         <span className="account-trigger-text">{accountLabel}</span>
       </button>

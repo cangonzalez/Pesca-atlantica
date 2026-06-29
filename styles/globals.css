@@ -157,6 +157,12 @@ img {
     font-weight: var(--peso-bold);
 }
 
+.account-person-icon {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2.2;
+}
+
 .account-trigger.authenticated .account-avatar,
 .account-trigger:hover .account-avatar {
     background-color: var(--negro);
