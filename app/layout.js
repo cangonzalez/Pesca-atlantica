@@ -1,4 +1,5 @@
 import { CartProvider } from '../context/CartContext';
+import AccountMenu from '../components/AccountMenu';
 import CartSidebar from '../components/CartSidebar';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import NavLink from '../components/NavLink';
@@ -34,6 +35,7 @@ export default function RootLayout({ children }) {
                 priority
               />
             </Link>
+            <AccountMenu />
             <LanguageSwitcher />
           </header>
 
@@ -43,6 +45,7 @@ export default function RootLayout({ children }) {
               <li><NavLink href="/nosotros">Nosotros</NavLink></li>
               <li><NavLink href="/productos">Productos</NavLink></li>
               <li><NavLink href="/contacto">Contacto</NavLink></li>
+              <li><NavLink href="/cuenta">Cuenta</NavLink></li>
             </ul>
           </nav>
 

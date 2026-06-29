@@ -111,6 +111,121 @@ img {
     transform: scale(1.03);
 }
 
+.account-menu {
+    position: absolute;
+    top: 50%;
+    left: var(--espacio-md);
+    transform: translateY(-50%);
+    z-index: 2100;
+}
+
+.account-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 220px;
+    min-height: 42px;
+    padding: 8px 14px;
+    border: 1px solid var(--gris-oscuro);
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--gris-claro);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.86rem;
+    font-weight: var(--peso-medium);
+    transition: all var(--transicion-normal);
+}
+
+.account-trigger:hover,
+.account-trigger.authenticated {
+    background-color: var(--blanco);
+    color: var(--negro);
+    border-color: var(--blanco);
+}
+
+.account-avatar {
+    display: inline-grid;
+    width: 26px;
+    height: 26px;
+    place-items: center;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background-color: var(--gris-oscuro);
+    color: var(--blanco);
+    font-size: 0.78rem;
+    font-weight: var(--peso-bold);
+}
+
+.account-trigger.authenticated .account-avatar,
+.account-trigger:hover .account-avatar {
+    background-color: var(--negro);
+}
+
+.account-trigger-text {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.account-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    display: grid;
+    gap: 8px;
+    width: 260px;
+    padding: var(--espacio-sm);
+    border: 1px solid var(--gris-claro);
+    border-radius: var(--radio-md);
+    background-color: var(--blanco);
+    box-shadow: var(--sombra-lg);
+    color: var(--negro);
+}
+
+.account-dropdown-title {
+    margin: 0;
+    color: var(--gris-medio);
+    font-size: 0.78rem;
+    font-weight: var(--peso-bold);
+    text-transform: uppercase;
+}
+
+.account-dropdown strong,
+.account-dropdown small {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.account-dropdown small {
+    color: var(--gris-medio);
+    font-size: 0.82rem;
+}
+
+.account-dropdown a,
+.account-dropdown button {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--gris-claro);
+    border-radius: 999px;
+    background-color: var(--gris-muy-claro);
+    color: var(--negro);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.86rem;
+    font-weight: var(--peso-medium);
+    text-align: center;
+    text-decoration: none;
+    transition: all var(--transicion-normal);
+}
+
+.account-dropdown a:hover,
+.account-dropdown button:hover {
+    border-color: var(--negro);
+    background-color: var(--blanco);
+}
+
 .language-switcher {
     position: absolute;
     top: 50%;
@@ -782,25 +897,23 @@ section {
     }
     
     .header {
-        min-height: 88px;
-        padding: 14px 120px 14px var(--espacio-md);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: var(--espacio-sm);
+        min-height: 96px;
+        padding: 14px 170px;
+        display: block;
     }
     
     .logo {
         width: 96px;
-        margin: 0;
-        flex-shrink: 0;
+        margin: 0 auto;
     }
 
     .language-switcher {
-        position: static;
+        position: absolute;
+        top: 50%;
+        right: var(--espacio-md);
+        transform: translateY(-50%);
         justify-content: flex-end;
         margin-top: 0;
-        transform: none;
         min-width: 0;
     }
 
@@ -883,12 +996,18 @@ section {
 
 @media (max-width: 480px) {
     .header {
-        min-height: 76px;
-        padding: 12px 92px 12px var(--espacio-sm);
+        min-height: 118px;
+        padding: 48px 120px 12px;
     }
 
     .logo {
         width: 74px;
+    }
+
+    .language-switcher {
+        top: 12px;
+        right: 12px;
+        transform: none;
     }
 
     .language-switcher select {
@@ -1013,6 +1132,9 @@ section {
 }
 
 .cart-icon:focus-visible,
+.account-trigger:focus-visible,
+.account-dropdown a:focus-visible,
+.account-dropdown button:focus-visible,
 .modal-close:focus-visible,
 .cart-item-remove:focus-visible,
 .checkout-btn:focus-visible,
@@ -1768,6 +1890,79 @@ section {
     text-decoration: none;
 }
 
+.account-page {
+    width: min(100%, 900px);
+    margin: 0 auto;
+}
+
+.account-page-header,
+.account-history {
+    padding: var(--espacio-lg);
+    border: 1px solid var(--gris-claro);
+    border-radius: var(--radio-lg);
+    background-color: var(--blanco);
+    box-shadow: var(--sombra-sm);
+}
+
+.account-page-header {
+    margin-bottom: var(--espacio-lg);
+}
+
+.account-page-header h1 {
+    margin-bottom: var(--espacio-sm);
+    color: var(--negro);
+    font-size: clamp(2rem, 5vw, 2.6rem);
+    line-height: 1.1;
+}
+
+.account-page-header p {
+    color: var(--gris-medio);
+}
+
+.account-logout {
+    width: auto;
+    min-width: 180px;
+    margin-top: var(--espacio-md);
+}
+
+.account-history h2 {
+    margin-bottom: var(--espacio-md);
+    color: var(--negro);
+    font-size: 1.5rem;
+}
+
+.account-order-list {
+    display: grid;
+    gap: var(--espacio-sm);
+}
+
+.account-order {
+    display: grid;
+    gap: 6px;
+    padding: var(--espacio-md);
+    border: 1px solid var(--gris-claro);
+    border-radius: var(--radio-md);
+    background-color: var(--gris-muy-claro);
+}
+
+.account-order div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--espacio-md);
+}
+
+.account-order p,
+.account-order span,
+.account-order small {
+    margin: 0;
+    color: var(--gris-medio);
+    overflow-wrap: anywhere;
+}
+
+.account-order strong {
+    color: var(--negro);
+}
+
 /* ============================================
    RESPONSIVE MODALES Y CARRITO
    ============================================ */
@@ -1807,6 +2002,27 @@ section {
     .cart-footer {
         padding: var(--espacio-md);
     }
+
+    .account-menu {
+        left: var(--espacio-sm);
+    }
+
+    .account-trigger {
+        max-width: 160px;
+        min-height: 38px;
+        padding: 7px 10px;
+        font-size: 0.78rem;
+    }
+
+    .account-avatar {
+        width: 24px;
+        height: 24px;
+        font-size: 0.72rem;
+    }
+
+    .account-dropdown {
+        width: min(260px, calc(100vw - 32px));
+    }
 }
 
 @media (max-width: 480px) {
@@ -1824,5 +2040,33 @@ section {
         width: 20px;
         height: 20px;
         font-size: 0.65rem;
+    }
+
+    .account-menu {
+        top: 12px;
+        left: 12px;
+        transform: none;
+    }
+
+    .account-trigger {
+        max-width: 132px;
+        min-height: 34px;
+        padding: 6px 9px;
+        font-size: 0.7rem;
+    }
+
+    .account-avatar {
+        width: 22px;
+        height: 22px;
+    }
+
+    .account-page-header,
+    .account-history {
+        padding: var(--espacio-md);
+    }
+
+    .account-order div {
+        display: grid;
+        gap: 2px;
     }
 }
