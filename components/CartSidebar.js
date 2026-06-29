@@ -12,6 +12,8 @@ function formatPrice(price) {
   }).format(price);
 }
 
+const SHIPPING_COST = 0;
+
 export default function CartSidebar() {
   const {
     cart,
@@ -54,6 +56,8 @@ export default function CartSidebar() {
     password: ''
   });
   const cartItemCount = cart.reduce((sum, item) => sum + (item.cantidad || 1), 0);
+  const subtotal = getTotal();
+  const total = subtotal + SHIPPING_COST;
   const cartButtonRef = useRef(null);
   const cartCloseButtonRef = useRef(null);
   const buyerCloseButtonRef = useRef(null);
@@ -462,9 +466,20 @@ export default function CartSidebar() {
             </>
           )}
 
-          <div className="cart-total">
-            <span>Total</span>
-            <span>{formatPrice(getTotal())}</span>
+          <div className="cart-summary" aria-label="Resumen de compra">
+            <h3>Resumen</h3>
+            <div className="cart-summary-row">
+              <span>Subtotal</span>
+              <strong>{formatPrice(subtotal)}</strong>
+            </div>
+            <div className="cart-summary-row">
+              <span>Envío</span>
+              <strong className="free-shipping">Gratis</strong>
+            </div>
+            <div className="cart-summary-row total">
+              <span>Total</span>
+              <strong>{formatPrice(total)}</strong>
+            </div>
           </div>
           <button
             className="checkout-btn"

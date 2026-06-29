@@ -14,6 +14,7 @@ create table if not exists public.orders (
   delivery_address text,
   delivery_notes text,
   currency text not null default 'ARS',
+  shipping_cost numeric(12, 2) not null default 0,
   total_amount numeric(12, 2) not null default 0,
   items jsonb not null default '[]'::jsonb,
   payment_method_id text,
@@ -33,6 +34,7 @@ alter table public.orders add column if not exists buyer_user_id uuid references
 alter table public.orders add column if not exists buyer_phone text;
 alter table public.orders add column if not exists delivery_address text;
 alter table public.orders add column if not exists delivery_notes text;
+alter table public.orders add column if not exists shipping_cost numeric(12, 2) not null default 0;
 
 create index if not exists orders_status_idx on public.orders(status);
 create index if not exists orders_created_at_idx on public.orders(created_at desc);

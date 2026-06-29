@@ -4,6 +4,7 @@ import { getUserFromAccessToken, saveOrder } from '../../../../lib/supabaseAdmin
 
 const MERCADO_PAGO_PREFERENCES_URL = 'https://api.mercadopago.com/checkout/preferences';
 const AVAILABLE_GRAMS = new Set([100, 200, 250, 300, 350, 500, 600, 700, 800, 1000]);
+const SHIPPING_COST = 0;
 
 const productsById = new Map(productos.map((producto) => [producto.id, producto]));
 
@@ -250,6 +251,7 @@ export async function POST(request) {
       metadata: {
         source: 'pescatlantica-web',
         environment: 'test',
+        shipping_cost: SHIPPING_COST,
         ...buyerMetadata
       }
     };
@@ -308,6 +310,7 @@ export async function POST(request) {
       delivery_address: buyerMetadata.delivery_address || null,
       delivery_notes: buyerMetadata.delivery_notes || null,
       currency: 'ARS',
+      shipping_cost: SHIPPING_COST,
       total_amount: getTotalAmount(items),
       items
     });
