@@ -305,6 +305,7 @@ export function CartProvider({ children }) {
       authUser,
       isAuthenticated: Boolean(authUser),
       isAuthReady,
+      isLoaded,
       addToCart,
       removeFromCart,
       updateQuantity,

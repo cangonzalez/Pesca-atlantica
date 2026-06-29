@@ -4,13 +4,13 @@ import { useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 
 export default function CartClearer({ status }) {
-  const { clearCart } = useCart();
+  const { clearCart, isLoaded } = useCart();
 
   useEffect(() => {
-    if (status === 'approved') {
+    if (isLoaded && status === 'approved') {
       clearCart();
     }
-  }, [status, clearCart]);
+  }, [isLoaded, status, clearCart]);
 
   return null;
 }
