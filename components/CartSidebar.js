@@ -19,6 +19,7 @@ export default function CartSidebar() {
     cart,
     user,
     isAuthenticated,
+    isAuthReady,
     removeFromCart,
     clearCart,
     getTotal,
@@ -58,6 +59,9 @@ export default function CartSidebar() {
   const cartItemCount = cart.reduce((sum, item) => sum + (item.cantidad || 1), 0);
   const subtotal = getTotal();
   const total = subtotal + SHIPPING_COST;
+  const hasCartItems = cart.length > 0;
+  const shouldShowCheckoutChoice = hasCartItems && isAuthReady && !isAuthenticated && !user;
+  const canStartCheckout = hasCartItems && Boolean(user);
   const cartButtonRef = useRef(null);
   const cartCloseButtonRef = useRef(null);
   const buyerCloseButtonRef = useRef(null);
@@ -199,7 +203,21 @@ export default function CartSidebar() {
   };
 
   const handleCheckout = () => {
-    openBuyerModal();
+    if (cart.length === 0) {
+      return;
+    }
+
+    if (!user) {
+      setCheckoutError('Elegí si querés continuar como invitado o iniciar sesión.');
+      return;
+    }
+
+    if (isAuthenticated) {
+      openBuyerModal();
+      return;
+    }
+
+    completePurchase(user);
   };
 
   const handleBuyerSubmit = async (event) => {
@@ -385,32 +403,21 @@ export default function CartSidebar() {
         </div>
 
         <div className="cart-footer">
-          <div className="cart-account-panel">
-            {isAuthenticated ? (
-              <>
-                <div>
-                  <span className="cart-account-label">Sesión activa</span>
-                  <strong>{user?.name || user?.email}</strong>
-                  <small>{user?.email}</small>
-                </div>
-                <div className="cart-account-actions">
-                  <button type="button" onClick={loadOrderHistory}>
-                    {isHistoryOpen ? 'Ocultar historial' : 'Ver historial'}
-                  </button>
-                  <button type="button" onClick={handleSignOut}>Cerrar sesión</button>
-                </div>
-              </>
-            ) : (
-              <>
-                <p>Iniciá sesión para guardar historial, o comprá como invitado dejando tus datos.</p>
-                <div className="cart-account-actions">
-                  <button type="button" onClick={() => openAuthModal('login')}>Iniciar sesión</button>
-                  <button type="button" onClick={() => openAuthModal('register')}>Crear cuenta</button>
-                  <button type="button" onClick={openBuyerModal}>Seguir como invitado</button>
-                </div>
-              </>
-            )}
-          </div>
+          {hasCartItems && isAuthenticated && (
+            <div className="cart-account-panel">
+              <div>
+                <span className="cart-account-label">Sesión activa</span>
+                <strong>{user?.name || user?.email}</strong>
+                <small>{user?.email}</small>
+              </div>
+              <div className="cart-account-actions">
+                <button type="button" onClick={loadOrderHistory}>
+                  {isHistoryOpen ? 'Ocultar historial' : 'Ver historial'}
+                </button>
+                <button type="button" onClick={handleSignOut}>Cerrar sesión</button>
+              </div>
+            </div>
+          )}
 
           {isHistoryOpen && (
             <div className="order-history">
@@ -438,7 +445,7 @@ export default function CartSidebar() {
             </div>
           )}
 
-          {cart.length > 0 && (
+          {hasCartItems && (
             <>
               {user ? (
                 <div className="cart-user">
@@ -451,10 +458,10 @@ export default function CartSidebar() {
                     <button type="button" onClick={openBuyerModal}>Cambiar datos</button>
                   )}
                 </div>
+              ) : !isAuthReady ? (
+                <p className="cart-auth-note">Estamos revisando si ya tenés una sesión activa.</p>
               ) : (
-                <p className="cart-auth-note">
-                  Podés comprar como invitado, pero igual necesitamos tus datos de contacto y entrega.
-                </p>
+                null
               )}
 
               {purchaseMessage && <p className="cart-success">{purchaseMessage}</p>}
@@ -481,14 +488,32 @@ export default function CartSidebar() {
               <strong>{formatPrice(total)}</strong>
             </div>
           </div>
-          <button
-            className="checkout-btn"
-            type="button"
-            onClick={handleCheckout}
-            disabled={cart.length === 0 || isCheckingOut}
-          >
-            {isCheckingOut ? 'Preparando pago...' : 'Finalizar compra'}
-          </button>
+
+          {shouldShowCheckoutChoice ? (
+            <div className="cart-checkout-choice">
+              <p>
+                Para finalizar la compra, elegí cómo querés seguir. Como invitado igual te pedimos
+                datos de contacto y entrega.
+              </p>
+              <div className="cart-checkout-choice-actions">
+                <button className="checkout-btn" type="button" onClick={openBuyerModal}>
+                  Continuar como invitado
+                </button>
+                <button className="clear-cart-btn" type="button" onClick={() => openAuthModal('login')}>
+                  Iniciar sesión
+                </button>
+              </div>
+            </div>
+          ) : (
+            <button
+              className="checkout-btn"
+              type="button"
+              onClick={handleCheckout}
+              disabled={!canStartCheckout || isCheckingOut}
+            >
+              {isCheckingOut ? 'Preparando pago...' : 'Finalizar compra'}
+            </button>
+          )}
           <button
             className="clear-cart-btn"
             type="button"

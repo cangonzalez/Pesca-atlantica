@@ -1666,6 +1666,34 @@ section {
     border-color: var(--negro);
 }
 
+.cart-checkout-choice {
+    display: grid;
+    gap: var(--espacio-sm);
+    margin-bottom: var(--espacio-sm);
+    padding: var(--espacio-sm);
+    border: 1px solid var(--gris-claro);
+    border-radius: var(--radio-md);
+    background-color: var(--gris-muy-claro);
+}
+
+.cart-checkout-choice p {
+    margin: 0;
+    color: var(--gris-medio);
+    font-size: 0.9rem;
+    line-height: 1.45;
+}
+
+.cart-checkout-choice-actions {
+    display: grid;
+    gap: var(--espacio-xs);
+}
+
+.cart-checkout-choice .clear-cart-btn {
+    margin-top: 0;
+    background-color: var(--blanco);
+    color: var(--negro);
+}
+
 .order-history {
     margin-bottom: var(--espacio-md);
     padding: var(--espacio-sm);
