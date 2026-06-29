@@ -113,9 +113,11 @@ img {
 
 .account-menu {
     position: absolute;
-    top: 50%;
+    top: 0;
+    bottom: 0;
     left: var(--espacio-md);
-    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
     z-index: 2100;
 }
 
@@ -1923,6 +1925,12 @@ section {
     text-transform: uppercase;
 }
 
+.payment-id-ref {
+    margin-top: var(--espacio-md);
+    color: var(--gris-medio);
+    font-size: 0.85rem;
+}
+
 .payment-details {
     display: grid;
     grid-template-columns: minmax(110px, max-content) 1fr;
@@ -2118,8 +2126,8 @@ section {
 
     .account-menu {
         top: 12px;
+        bottom: auto;
         left: 12px;
-        transform: none;
     }
 
     .account-trigger {
