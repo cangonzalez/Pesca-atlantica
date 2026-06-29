@@ -46,10 +46,10 @@ const VALUES = [
 ];
 
 const PROCESS_PHOTOS = [
-  { src: '/imagenes/planta1.jpg', caption: 'Fileteo artesanal' },
-  { src: '/imagenes/planta2.jpg', caption: 'Control de calidad' },
-  { src: '/imagenes/planta3.jpg', caption: 'Clasificación y almacenamiento' },
-  { src: '/imagenes/planta4.jpg', caption: 'Procesamiento en planta' }
+  { src: '/imagenes/fileteado copy.jpeg', caption: 'Fileteo artesanal' },
+  { src: '/imagenes/equipo-trabajo copy.jpeg', caption: 'Equipo de trabajo' },
+  { src: '/imagenes/guardado copy.jpeg', caption: 'Clasificación y almacenamiento' },
+  { src: '/imagenes/merluza-hielo-hero copy.jpeg', caption: 'Producto final' }
 ];
 
 export default function NosotrosPage() {
@@ -66,7 +66,7 @@ export default function NosotrosPage() {
         <div className="grid">
           <div className="imagen-seccion">
             <Image
-              src="/imagenes/barco_costado.jpg"
+              src="/imagenes/barco.jpeg"
               alt="Flota de Pescatlántica"
               width={1100}
               height={1836}
