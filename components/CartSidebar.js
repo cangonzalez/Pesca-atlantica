@@ -21,6 +21,7 @@ export default function CartSidebar() {
     isAuthenticated,
     isAuthReady,
     removeFromCart,
+    updateQuantity,
     clearCart,
     getTotal,
     saveBuyer,
@@ -382,11 +383,26 @@ export default function CartSidebar() {
                 />
                 <div className="cart-item-info">
                   <h4>{item.nombre}</h4>
-                  <p>
-                    {item.cantidad > 1
-                      ? `${item.gramosTotales}g total (${item.peso} x ${item.cantidad})`
-                      : item.peso}
-                  </p>
+                  <p>{item.peso}</p>
+                  <div className="cart-item-qty">
+                    <button
+                      className="cart-item-qty-btn"
+                      type="button"
+                      onClick={() => updateQuantity(index, -1)}
+                      aria-label="Quitar uno"
+                    >
+                      −
+                    </button>
+                    <span className="cart-item-qty-count">{item.cantidad || 1}</span>
+                    <button
+                      className="cart-item-qty-btn"
+                      type="button"
+                      onClick={() => updateQuantity(index, 1)}
+                      aria-label="Agregar uno"
+                    >
+                      +
+                    </button>
+                  </div>
                   <p>{formatPrice(item.precioTotal)}</p>
                 </div>
                 <button
@@ -466,10 +482,6 @@ export default function CartSidebar() {
 
               {purchaseMessage && <p className="cart-success">{purchaseMessage}</p>}
               {checkoutError && <p className="cart-error" role="alert">{checkoutError}</p>}
-              <p className="cart-test-note">
-                Modo prueba: primero iniciá sesión en Mercado Pago con el comprador de prueba en esta misma
-                ventana de incógnito; después volvé a la tienda y tocá pagar.
-              </p>
             </>
           )}
 

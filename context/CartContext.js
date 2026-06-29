@@ -182,6 +182,27 @@ export function CartProvider({ children }) {
     setCart((currentCart) => currentCart.filter((_, i) => i !== index));
   }, []);
 
+  const updateQuantity = useCallback((index, delta) => {
+    setCart((currentCart) => {
+      const item = currentCart[index];
+      if (!item) return currentCart;
+      const newCantidad = (item.cantidad || 1) + delta;
+      if (newCantidad <= 0) {
+        return currentCart.filter((_, i) => i !== index);
+      }
+      const unitPrice = Math.round((item.precioUnitario || 0) * (item.gramos || 0) / 100);
+      return currentCart.map((cartItem, i) => {
+        if (i !== index) return cartItem;
+        return {
+          ...cartItem,
+          cantidad: newCantidad,
+          gramosTotales: cartItem.gramos * newCantidad,
+          precioTotal: unitPrice * newCantidad
+        };
+      });
+    });
+  }, []);
+
   const clearCart = useCallback(() => {
     setCart([]);
   }, []);
@@ -286,6 +307,7 @@ export function CartProvider({ children }) {
       isAuthReady,
       addToCart,
       removeFromCart,
+      updateQuantity,
       clearCart,
       saveBuyer,
       signIn,

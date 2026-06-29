@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import CartClearer from '../../components/CartClearer';
 
 const STATUS_MESSAGES = {
   approved: {
@@ -34,6 +35,7 @@ export default function PagoPage({ searchParams }) {
 
   return (
     <main>
+      <CartClearer status={status} />
       <section className="page-intro payment-result">
         <p className="payment-eyebrow">Checkout Pro test</p>
         <h1>{content.title}</h1>
