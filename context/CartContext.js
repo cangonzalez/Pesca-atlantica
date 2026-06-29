@@ -5,9 +5,12 @@ import { getSupabaseBrowserClient } from '../lib/supabaseClient';
 
 const CartContext = createContext();
 
-function normalizeBuyer({ name, email }) {
-  const normalizedEmail = email.trim().toLowerCase();
-  const normalizedName = name.trim();
+function normalizeBuyer({ name, email, phone, address, deliveryNotes }) {
+  const normalizedEmail = (email || '').trim().toLowerCase();
+  const normalizedName = (name || '').trim();
+  const normalizedPhone = (phone || '').trim();
+  const normalizedAddress = (address || '').trim();
+  const normalizedDeliveryNotes = (deliveryNotes || '').trim();
 
   if (!normalizedName) {
     throw new Error('Ingresá tu nombre para continuar.');
@@ -17,9 +20,20 @@ function normalizeBuyer({ name, email }) {
     throw new Error('Ingresá un email válido.');
   }
 
+  if (!normalizedPhone) {
+    throw new Error('Ingresá un teléfono para coordinar la entrega.');
+  }
+
+  if (!normalizedAddress) {
+    throw new Error('Ingresá una dirección de entrega.');
+  }
+
   return {
     name: normalizedName,
-    email: normalizedEmail
+    email: normalizedEmail,
+    phone: normalizedPhone,
+    address: normalizedAddress,
+    deliveryNotes: normalizedDeliveryNotes
   };
 }
 
@@ -120,8 +134,11 @@ export function CartProvider({ children }) {
     if (authUser) {
       return {
         id: authUser.id,
-        name: getNameFromSessionUser(authUser),
+        name: guestBuyer?.name || getNameFromSessionUser(authUser),
         email: authUser.email,
+        phone: guestBuyer?.phone || '',
+        address: guestBuyer?.address || '',
+        deliveryNotes: guestBuyer?.deliveryNotes || '',
         isAuthenticated: true
       };
     }
@@ -214,7 +231,13 @@ export function CartProvider({ children }) {
       throw new Error('Falta configurar las variables públicas de Supabase.');
     }
 
-    const buyer = normalizeBuyer({ name, email });
+    const buyer = normalizeBuyer({
+      name,
+      email,
+      phone: 'Pendiente',
+      address: 'Pendiente',
+      deliveryNotes: ''
+    });
 
     if (!password || password.length < 6) {
       throw new Error('La contraseña tiene que tener al menos 6 caracteres.');

@@ -1633,7 +1633,8 @@ section {
     font-weight: var(--peso-medium);
 }
 
-.auth-form input {
+.auth-form input,
+.auth-form textarea {
     width: 100%;
     padding: var(--espacio-sm) var(--espacio-md);
     border: 2px solid var(--gris-claro);
@@ -1641,9 +1642,20 @@ section {
     font: inherit;
 }
 
-.auth-form input:focus {
+.auth-form textarea {
+    min-height: 96px;
+    resize: vertical;
+}
+
+.auth-form input:focus,
+.auth-form textarea:focus {
     outline: none;
     border-color: var(--negro);
+}
+
+.auth-form input[readonly] {
+    background-color: var(--gris-muy-claro);
+    color: var(--gris-medio);
 }
 
 .auth-error {

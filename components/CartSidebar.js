@@ -43,7 +43,10 @@ export default function CartSidebar() {
   const [orders, setOrders] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
-    email: ''
+    email: '',
+    phone: '',
+    address: '',
+    deliveryNotes: ''
   });
   const [authFormData, setAuthFormData] = useState({
     name: '',
@@ -117,7 +120,10 @@ export default function CartSidebar() {
   const openBuyerModal = () => {
     setFormData({
       name: user?.name || '',
-      email: user?.email || ''
+      email: user?.email || '',
+      phone: user?.phone || '',
+      address: user?.address || '',
+      deliveryNotes: user?.deliveryNotes || ''
     });
     setBuyerError('');
     setIsBuyerModalOpen(true);
@@ -189,7 +195,7 @@ export default function CartSidebar() {
   };
 
   const handleCheckout = () => {
-    completePurchase(user);
+    openBuyerModal();
   };
 
   const handleBuyerSubmit = async (event) => {
@@ -198,7 +204,6 @@ export default function CartSidebar() {
     try {
       const sessionUser = saveBuyer(formData);
       setIsBuyerModalOpen(false);
-      setFormData({ name: '', email: '' });
       await completePurchase(sessionUser);
     } catch (error) {
       setBuyerError(error.message);
@@ -397,6 +402,7 @@ export default function CartSidebar() {
                 <div className="cart-account-actions">
                   <button type="button" onClick={() => openAuthModal('login')}>Iniciar sesión</button>
                   <button type="button" onClick={() => openAuthModal('register')}>Crear cuenta</button>
+                  <button type="button" onClick={openBuyerModal}>Seguir como invitado</button>
                 </div>
               </>
             )}
@@ -419,6 +425,7 @@ export default function CartSidebar() {
                         <span>{formatOrderDate(order.created_at)}</span>
                       </div>
                       <p>{getOrderItemsLabel(order.items)}</p>
+                      {order.delivery_address && <small>Entrega: {order.delivery_address}</small>}
                       <small>Estado: {order.status}</small>
                     </li>
                   ))}
@@ -441,7 +448,9 @@ export default function CartSidebar() {
                   )}
                 </div>
               ) : (
-                <p className="cart-auth-note">Para finalizar la compra necesitamos tu nombre y email.</p>
+                <p className="cart-auth-note">
+                  Podés comprar como invitado, pero igual necesitamos tus datos de contacto y entrega.
+                </p>
               )}
 
               {purchaseMessage && <p className="cart-success">{purchaseMessage}</p>}
@@ -463,7 +472,7 @@ export default function CartSidebar() {
             onClick={handleCheckout}
             disabled={cart.length === 0 || isCheckingOut}
           >
-            {isCheckingOut ? 'Preparando pago...' : 'Pagar con Mercado Pago'}
+            {isCheckingOut ? 'Preparando pago...' : 'Finalizar compra'}
           </button>
           <button
             className="clear-cart-btn"
@@ -499,8 +508,12 @@ export default function CartSidebar() {
               &times;
             </button>
 
-            <h2 id="buyer-modal-title">Comprar como invitado</h2>
-            <p>Usamos estos datos para enviar el pago a Mercado Pago y coordinar la entrega.</p>
+            <h2 id="buyer-modal-title">
+              {isAuthenticated ? 'Confirmar datos de entrega' : 'Comprar como invitado'}
+            </h2>
+            <p>
+              Estos datos no reemplazan el pago: los usamos para preparar el pedido y coordinar la entrega.
+            </p>
 
             <form className="auth-form" onSubmit={handleBuyerSubmit}>
               <label>
@@ -525,6 +538,42 @@ export default function CartSidebar() {
                   onChange={handleInputChange}
                   required
                   autoComplete="email"
+                  readOnly={isAuthenticated}
+                />
+              </label>
+
+              <label>
+                Teléfono
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  required
+                  autoComplete="tel"
+                />
+              </label>
+
+              <label>
+                Dirección de entrega
+                <input
+                  type="text"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  required
+                  autoComplete="street-address"
+                />
+              </label>
+
+              <label>
+                Notas para la entrega
+                <textarea
+                  name="deliveryNotes"
+                  value={formData.deliveryNotes}
+                  onChange={handleInputChange}
+                  rows={3}
+                  placeholder="Piso, horario preferido o aclaraciones"
                 />
               </label>
 
@@ -533,9 +582,11 @@ export default function CartSidebar() {
               <button className="checkout-btn" type="submit" disabled={isCheckingOut}>
                 {isCheckingOut ? 'Preparando pago...' : 'Continuar al pago'}
               </button>
-              <button className="clear-cart-btn" type="button" onClick={() => openAuthModal('login')}>
-                Iniciar sesión y guardar historial
-              </button>
+              {!isAuthenticated && (
+                <button className="clear-cart-btn" type="button" onClick={() => openAuthModal('login')}>
+                  Iniciar sesión y guardar historial
+                </button>
+              )}
             </form>
           </div>
         </div>

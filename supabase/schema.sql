@@ -10,6 +10,9 @@ create table if not exists public.orders (
   buyer_user_id uuid references auth.users(id) on delete set null,
   buyer_name text,
   buyer_email text,
+  buyer_phone text,
+  delivery_address text,
+  delivery_notes text,
   currency text not null default 'ARS',
   total_amount numeric(12, 2) not null default 0,
   items jsonb not null default '[]'::jsonb,
@@ -27,6 +30,9 @@ grant select, insert, update on public.orders to service_role;
 grant select on public.orders to authenticated;
 
 alter table public.orders add column if not exists buyer_user_id uuid references auth.users(id) on delete set null;
+alter table public.orders add column if not exists buyer_phone text;
+alter table public.orders add column if not exists delivery_address text;
+alter table public.orders add column if not exists delivery_notes text;
 
 create index if not exists orders_status_idx on public.orders(status);
 create index if not exists orders_created_at_idx on public.orders(created_at desc);

@@ -11,6 +11,10 @@ function isValidEmail(email) {
   return typeof email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+function cleanText(value) {
+  return typeof value === 'string' ? value.trim() : '';
+}
+
 function isTestUserEmail(email) {
   return typeof email === 'string' && email.toLowerCase().endsWith('@testuser.com');
 }
@@ -27,12 +31,56 @@ function getBearerToken(request) {
 
 function getAuthenticatedName(user, buyer) {
   return (
-    buyer?.name?.trim() ||
+    cleanText(buyer?.name) ||
     user?.user_metadata?.name ||
     user?.user_metadata?.full_name ||
     user?.email?.split('@')[0] ||
     ''
   );
+}
+
+function getCheckoutDetails(buyer, authenticatedUser) {
+  const buyerPhone = cleanText(buyer?.phone);
+  const deliveryAddress = cleanText(buyer?.address);
+  const deliveryNotes = cleanText(buyer?.deliveryNotes);
+
+  if (!buyerPhone) {
+    throw new Error('Necesitamos un teléfono para coordinar la entrega.');
+  }
+
+  if (!deliveryAddress) {
+    throw new Error('Necesitamos una dirección de entrega.');
+  }
+
+  if (authenticatedUser) {
+    return {
+      buyer_user_id: authenticatedUser.id,
+      buyer_name: getAuthenticatedName(authenticatedUser, buyer),
+      buyer_email: authenticatedUser.email,
+      buyer_phone: buyerPhone,
+      delivery_address: deliveryAddress,
+      delivery_notes: deliveryNotes
+    };
+  }
+
+  const buyerName = cleanText(buyer?.name);
+  const buyerEmail = cleanText(buyer?.email).toLowerCase();
+
+  if (!buyerName) {
+    throw new Error('Necesitamos tu nombre para preparar el pedido.');
+  }
+
+  if (!isValidEmail(buyerEmail)) {
+    throw new Error('Necesitamos un email válido para preparar el pedido.');
+  }
+
+  return {
+    buyer_name: buyerName,
+    buyer_email: buyerEmail,
+    buyer_phone: buyerPhone,
+    delivery_address: deliveryAddress,
+    delivery_notes: deliveryNotes
+  };
 }
 
 function getQuantity(value) {
@@ -193,25 +241,7 @@ export async function POST(request) {
     const items = buildPreferenceItems(cart, publicBaseUrl);
     const backUrls = buildBackUrls(publicBaseUrl);
     const externalReference = `pescatlantica-${Date.now()}`;
-    const buyerMetadata = authenticatedUser
-      ? {
-          buyer_user_id: authenticatedUser.id,
-          buyer_name: getAuthenticatedName(authenticatedUser, buyer),
-          buyer_email: authenticatedUser.email
-        }
-      : buyer && isValidEmail(buyer.email)
-        ? {
-            buyer_name: buyer.name || '',
-            buyer_email: buyer.email
-          }
-        : {};
-
-    if (!buyerMetadata.buyer_email) {
-      return NextResponse.json(
-        { error: 'Necesitamos tu nombre y email para preparar el pago.' },
-        { status: 400 }
-      );
-    }
+    const buyerMetadata = getCheckoutDetails(buyer, authenticatedUser);
 
     const body = {
       items,
@@ -274,6 +304,9 @@ export async function POST(request) {
       buyer_user_id: buyerMetadata.buyer_user_id || null,
       buyer_name: buyerMetadata.buyer_name || null,
       buyer_email: buyerMetadata.buyer_email || null,
+      buyer_phone: buyerMetadata.buyer_phone || null,
+      delivery_address: buyerMetadata.delivery_address || null,
+      delivery_notes: buyerMetadata.delivery_notes || null,
       currency: 'ARS',
       total_amount: getTotalAmount(items),
       items
