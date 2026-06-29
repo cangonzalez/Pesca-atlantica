@@ -1399,9 +1399,12 @@ section {
     color: var(--negro);
 }
 
-.cart-items {
+.cart-body {
     flex: 1;
     overflow-y: auto;
+}
+
+.cart-items {
     padding: var(--espacio-md);
 }
 

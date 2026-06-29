@@ -364,6 +364,7 @@ export default function CartSidebar() {
           </button>
         </div>
 
+        <div className="cart-body">
         <div className="cart-items">
           {cart.length === 0 ? (
             <div className="empty-cart">
@@ -534,6 +535,7 @@ export default function CartSidebar() {
           >
             Vaciar carrito
           </button>
+        </div>
         </div>
       </aside>
 
