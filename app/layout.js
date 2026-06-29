@@ -45,7 +45,6 @@ export default function RootLayout({ children }) {
               <li><NavLink href="/nosotros">Nosotros</NavLink></li>
               <li><NavLink href="/productos">Productos</NavLink></li>
               <li><NavLink href="/contacto">Contacto</NavLink></li>
-              <li><NavLink href="/cuenta">Cuenta</NavLink></li>
             </ul>
           </nav>
 

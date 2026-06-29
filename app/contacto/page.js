@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 
-const CONTACT_EMAIL = 'contacto@pescatlantica.com';
 const MIN_SECONDS_BEFORE_SUBMIT = 4;
 
 function countLinks(text) {
@@ -29,17 +28,9 @@ export default function ContactoPage() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-    
+    setFormData({ ...formData, [name]: value });
     if (errors[name] || errors.form) {
-      setErrors({
-        ...errors,
-        [name]: '',
-        form: ''
-      });
+      setErrors({ ...errors, [name]: '', form: '' });
     }
   };
 
@@ -62,8 +53,7 @@ export default function ContactoPage() {
       newErrors.nombre = 'El nombre debe tener al menos 3 caracteres';
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || !emailRegex.test(email)) {
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       newErrors.email = 'Email inválido';
     }
 
@@ -78,11 +68,11 @@ export default function ContactoPage() {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const newErrors = validateForm();
-    
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -90,27 +80,28 @@ export default function ContactoPage() {
 
     setStatus('submitting');
 
-    const subject = `Consulta web de ${formData.nombre.trim()}`;
-    const body = [
-      `Nombre: ${formData.nombre.trim()}`,
-      `Email: ${formData.email.trim()}`,
-      `Teléfono: ${formData.telefono.trim() || 'No informado'}`,
-      '',
-      'Mensaje:',
-      formData.mensaje.trim()
-    ].join('\n');
+    try {
+      const response = await fetch('/api/contacto', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
 
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setSubmitted(true);
-    setStatus('sent');
-    setErrors({});
-    setFormData({
-      nombre: '',
-      email: '',
-      telefono: '',
-      mensaje: ''
-    });
-    setStartedAt(Date.now());
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data.error || 'No se pudo enviar el mensaje.');
+      }
+
+      setSubmitted(true);
+      setStatus('sent');
+      setErrors({});
+      setFormData({ nombre: '', email: '', telefono: '', mensaje: '' });
+      setStartedAt(Date.now());
+    } catch (err) {
+      setErrors({ form: err.message || 'No se pudo enviar el mensaje. Intentá de nuevo.' });
+      setStatus('idle');
+    }
   };
 
   return (
@@ -137,7 +128,7 @@ export default function ContactoPage() {
           </p>
           <p className="contact-detail">
             <strong>Email:</strong><br />
-            <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+            <a href="mailto:contacto@pescatlantica.com">contacto@pescatlantica.com</a>
           </p>
           <p>
             <strong>Horario:</strong><br />
@@ -151,7 +142,7 @@ export default function ContactoPage() {
 
           {submitted && (
             <div className="form-message success" role="status">
-              Se abrió tu cliente de correo con la consulta preparada.
+              ¡Mensaje enviado! Nos ponemos en contacto a la brevedad.
             </div>
           )}
 
@@ -161,101 +152,97 @@ export default function ContactoPage() {
             </div>
           )}
 
-          <form className="form-contacto" onSubmit={handleSubmit}>
-            <div className="bot-field" aria-hidden="true">
-              <label htmlFor="website">Sitio web</label>
-              <input
-                id="website"
-                type="text"
-                name="website"
-                tabIndex="-1"
-                autoComplete="off"
-                value={website}
-                onChange={(event) => setWebsite(event.target.value)}
-              />
-            </div>
+          {!submitted && (
+            <form className="form-contacto" onSubmit={handleSubmit}>
+              <div className="bot-field" aria-hidden="true">
+                <label htmlFor="website">Sitio web</label>
+                <input
+                  id="website"
+                  type="text"
+                  name="website"
+                  tabIndex="-1"
+                  autoComplete="off"
+                  value={website}
+                  onChange={(event) => setWebsite(event.target.value)}
+                />
+              </div>
 
-            <div>
-              <label htmlFor="nombre">Nombre completo</label>
-              <input
-                id="nombre"
-                type="text"
-                name="nombre"
-                placeholder="Nombre completo"
-                value={formData.nombre}
-                onChange={handleChange}
-                required
-                minLength={3}
-                autoComplete="name"
-                aria-invalid={Boolean(errors.nombre)}
-                aria-describedby={errors.nombre ? 'nombre-error' : undefined}
-              />
-              {errors.nombre && (
-                <p className="field-error" id="nombre-error">
-                  {errors.nombre}
-                </p>
-              )}
-            </div>
+              <div>
+                <label htmlFor="nombre">Nombre completo</label>
+                <input
+                  id="nombre"
+                  type="text"
+                  name="nombre"
+                  placeholder="Nombre completo"
+                  value={formData.nombre}
+                  onChange={handleChange}
+                  required
+                  minLength={3}
+                  autoComplete="name"
+                  aria-invalid={Boolean(errors.nombre)}
+                  aria-describedby={errors.nombre ? 'nombre-error' : undefined}
+                />
+                {errors.nombre && (
+                  <p className="field-error" id="nombre-error">{errors.nombre}</p>
+                )}
+              </div>
 
-            <div>
-              <label htmlFor="email">Correo electrónico</label>
-              <input
-                id="email"
-                type="email"
-                name="email"
-                placeholder="Correo electrónico"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                autoComplete="email"
-                aria-invalid={Boolean(errors.email)}
-                aria-describedby={errors.email ? 'email-error' : undefined}
-              />
-              {errors.email && (
-                <p className="field-error" id="email-error">
-                  {errors.email}
-                </p>
-              )}
-            </div>
+              <div>
+                <label htmlFor="email">Correo electrónico</label>
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  placeholder="Correo electrónico"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  autoComplete="email"
+                  aria-invalid={Boolean(errors.email)}
+                  aria-describedby={errors.email ? 'email-error' : undefined}
+                />
+                {errors.email && (
+                  <p className="field-error" id="email-error">{errors.email}</p>
+                )}
+              </div>
 
-            <div>
-              <label htmlFor="telefono">Teléfono</label>
-              <input
-                id="telefono"
-                type="tel"
-                name="telefono"
-                placeholder="Teléfono (opcional)"
-                value={formData.telefono}
-                onChange={handleChange}
-                autoComplete="tel"
-              />
-            </div>
+              <div>
+                <label htmlFor="telefono">Teléfono</label>
+                <input
+                  id="telefono"
+                  type="tel"
+                  name="telefono"
+                  placeholder="Teléfono (opcional)"
+                  value={formData.telefono}
+                  onChange={handleChange}
+                  autoComplete="tel"
+                />
+              </div>
 
-            <div>
-              <label htmlFor="mensaje">Mensaje</label>
-              <textarea
-                id="mensaje"
-                name="mensaje"
-                placeholder="Escribí tu mensaje..."
-                value={formData.mensaje}
-                onChange={handleChange}
-                rows="5"
-                required
-                minLength={10}
-                aria-invalid={Boolean(errors.mensaje)}
-                aria-describedby={errors.mensaje ? 'mensaje-error' : undefined}
-              ></textarea>
-              {errors.mensaje && (
-                <p className="field-error" id="mensaje-error">
-                  {errors.mensaje}
-                </p>
-              )}
-            </div>
+              <div>
+                <label htmlFor="mensaje">Mensaje</label>
+                <textarea
+                  id="mensaje"
+                  name="mensaje"
+                  placeholder="Escribí tu mensaje..."
+                  value={formData.mensaje}
+                  onChange={handleChange}
+                  rows="5"
+                  required
+                  minLength={10}
+                  aria-invalid={Boolean(errors.mensaje)}
+                  aria-describedby={errors.mensaje ? 'mensaje-error' : undefined}
+                />
+                {errors.mensaje && (
+                  <p className="field-error" id="mensaje-error">{errors.mensaje}</p>
+                )}
+              </div>
 
-            <button className="btn btn-dark" type="submit" disabled={status === 'submitting'}>
-              {status === 'submitting' ? 'Preparando consulta' : 'Enviar consulta'}
-            </button>
-          </form>
+              <button className="btn btn-dark" type="submit" disabled={status === 'submitting'}>
+                {status === 'submitting' ? 'Enviando...' : 'Enviar consulta'}
+              </button>
+            </form>
+          )}
         </div>
       </section>
     </main>

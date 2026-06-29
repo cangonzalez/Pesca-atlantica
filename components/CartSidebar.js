@@ -335,6 +335,11 @@ export default function CartSidebar() {
         aria-expanded={isCartOpen}
         aria-controls="cart-sidebar"
       >
+        <svg className="cart-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <circle cx="9" cy="21" r="1"/>
+          <circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 001.95 1.61H19a2 2 0 001.95-1.55L23 6H6"/>
+        </svg>
         <span>Carrito</span>
         {cartItemCount > 0 && <span className="cart-count">{cartItemCount}</span>}
       </button>

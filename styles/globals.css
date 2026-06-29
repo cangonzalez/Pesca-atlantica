@@ -593,6 +593,83 @@ section {
 }
 
 /* ============================================
+   NOSOTROS - Secciones específicas
+   ============================================ */
+
+.nosotros-section-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: var(--peso-bold);
+    margin-bottom: var(--espacio-sm);
+    color: var(--negro);
+}
+
+.nosotros-section-subtitle {
+    color: var(--gris-medio);
+    margin-bottom: var(--espacio-lg);
+    font-size: 1rem;
+}
+
+.nosotros-cards {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.nosotros-value-card {
+    text-align: center;
+}
+
+.nosotros-value-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto var(--espacio-sm);
+    color: var(--negro);
+}
+
+.nosotros-value-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.nosotros-historia .grid {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: var(--espacio-xl);
+}
+
+.proceso-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--espacio-md);
+    margin-top: var(--espacio-md);
+}
+
+.proceso-item {
+    border-radius: var(--radio-lg);
+    overflow: hidden;
+    box-shadow: var(--sombra-sm);
+    background-color: var(--blanco);
+    transition: box-shadow var(--transicion-normal);
+}
+
+.proceso-item:hover {
+    box-shadow: var(--sombra-md);
+}
+
+.proceso-item img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    display: block;
+}
+
+.proceso-item p {
+    padding: var(--espacio-sm) var(--espacio-md);
+    font-size: 0.9rem;
+    font-weight: var(--peso-medium);
+    color: var(--gris-medio);
+    text-align: center;
+}
+
+/* ============================================
    SECCIONES CON IMAGEN - Layout moderno
    ============================================ */
 
@@ -1118,20 +1195,27 @@ section {
     right: 20px;
     background-color: var(--negro);
     color: var(--blanco);
-    min-width: 112px;
     height: 48px;
     border: none;
     border-radius: 999px;
     display: flex;
     align-items: center;
+    gap: 8px;
     justify-content: center;
-    padding: 0 var(--espacio-md);
+    padding: 0 20px;
     cursor: pointer;
     z-index: 2000;
     box-shadow: var(--sombra-lg);
     transition: all var(--transicion-normal);
     font-family: var(--font-principal);
     font-weight: var(--peso-medium);
+    font-size: 0.9rem;
+}
+
+.cart-icon-svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
 }
 
 .cart-icon:hover {
