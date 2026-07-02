@@ -1,12 +1,10 @@
 import { NextResponse } from 'next/server';
-import productos from '../../../../public/productos.json';
 import { getUserFromAccessToken, saveOrder } from '../../../../lib/supabaseAdmin';
+import { getCatalogProducts } from '../../../../lib/productCatalog';
 
 const MERCADO_PAGO_PREFERENCES_URL = 'https://api.mercadopago.com/checkout/preferences';
 const AVAILABLE_GRAMS = new Set([100, 200, 250, 300, 350, 500, 600, 700, 800, 1000]);
 const SHIPPING_COST = 0;
-
-const productsById = new Map(productos.map((producto) => [producto.id, producto]));
 
 function isValidEmail(email) {
   return typeof email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -173,7 +171,7 @@ function getPictureUrl(path, baseUrl) {
   return '';
 }
 
-function buildPreferenceItems(cart, baseUrl) {
+function buildPreferenceItems(cart, baseUrl, productsById) {
   if (!Array.isArray(cart) || cart.length === 0) {
     throw new Error('El carrito esta vacio.');
   }
@@ -239,7 +237,9 @@ export async function POST(request) {
     const { cart, buyer } = await request.json();
     const authenticatedUser = await getUserFromAccessToken(getBearerToken(request));
     const publicBaseUrl = getPublicBaseUrl(request);
-    const items = buildPreferenceItems(cart, publicBaseUrl);
+    const { productos } = await getCatalogProducts();
+    const productsById = new Map(productos.map((producto) => [producto.id, producto]));
+    const items = buildPreferenceItems(cart, publicBaseUrl, productsById);
     const backUrls = buildBackUrls(publicBaseUrl);
     const externalReference = `pescatlantica-${Date.now()}`;
     const buyerMetadata = getCheckoutDetails(buyer, authenticatedUser);

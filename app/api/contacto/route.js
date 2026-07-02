@@ -24,12 +24,20 @@ export async function POST(request) {
     const supabase = getSupabaseAdmin();
 
     if (supabase) {
-      await supabase.from('contact_messages').insert({
+      const { error } = await supabase.from('contact_messages').insert({
         nombre: nombreClean,
         email: emailClean,
         telefono: telefono?.trim() || null,
         mensaje: mensajeClean
       });
+
+      if (error) {
+        console.error('Contact message save failed:', error);
+        return NextResponse.json(
+          { error: 'No se pudo guardar el mensaje. Intentá nuevamente.' },
+          { status: 500 }
+        );
+      }
     }
 
     return NextResponse.json({ ok: true });

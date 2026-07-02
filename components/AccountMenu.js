@@ -170,6 +170,9 @@ export default function AccountMenu() {
               <Link href="/cuenta" role="menuitem" onClick={() => setIsMenuOpen(false)}>
                 Mi cuenta e historial
               </Link>
+              <Link href="/admin" role="menuitem" onClick={() => setIsMenuOpen(false)}>
+                Panel admin
+              </Link>
               <button type="button" onClick={handleSignOut} role="menuitem">
                 Cerrar sesión
               </button>
